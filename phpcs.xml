@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<ruleset name="NobleStudios">
-	<description>NobleStudios coding standard based loosely on http://codeigniter.com/user_guide/general/styleguide.html.</description>
+<ruleset name="ecs-wordpress-theme-framework">
+	<description>Coding standard based loosely on http://codeigniter.com/user_guide/general/styleguide.html.</description>
 
 	<exclude-pattern>*/_cutup/*</exclude-pattern>
 	<exclude-pattern>*/_portal/*</exclude-pattern>
