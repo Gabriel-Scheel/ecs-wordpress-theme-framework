@@ -10,7 +10,7 @@ test:
                 allow_failures: true
                 rules_file: "phpmd.xml"
         php_code_sniffer:
-                standard_file: "phpcs.xml"
+                standard: "/phpcs.xml"
                 args: "-s --report=gitblame --report-summary --report-full"
         php_cpd:
                 allow_failures: true
