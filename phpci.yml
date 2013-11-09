@@ -7,8 +7,9 @@ build_settings:
                 - "core/Inflector.php"
 test:
         php_mess_detector:
-                allow_failures: true
+                rule: "/phpmd.xml"
                 rules: "/phpmd.xml"
+                allow_failures: true
         php_code_sniffer:
                 standard: "/phpcs.xml"
                 args: "-s --report=gitblame --report-summary --report-full"
