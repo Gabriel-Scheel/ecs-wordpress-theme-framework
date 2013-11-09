@@ -8,7 +8,7 @@ build_settings:
 test:
         php_mess_detector:
                 allow_failures: true
-                rules_file: "phpmd.xml"
+                rules: "/phpmd.xml"
         php_code_sniffer:
                 standard: "/phpcs.xml"
                 args: "-s --report=gitblame --report-summary --report-full"
