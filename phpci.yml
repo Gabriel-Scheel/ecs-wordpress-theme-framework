@@ -7,8 +7,10 @@ build_settings:
                 - "core/Inflector.php"
 test:
         php_mess_detector:
-                rules: "/phpmd.xml"
-                suffixes: "php"
+                rules: 
+                        - "/phpmd.xml"
+                suffixes:  
+                        "php"
                 allow_failures: true
         php_code_sniffer:
                 standard: "/phpcs.xml"
