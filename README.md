@@ -6,10 +6,7 @@ A WordPress Theme Framework.
 This is an attempt to speed up some of the more tedious aspects of creating an advanced WordPress theme. 
 
 ## Features
-* Dynamic custom PostType generation w/MetaBox support 
-* Debugging Tools
-* Support for weinre for mobile app debugging
-* PixelPerfect widget
+* Dynamic custom PostType generation w/MetaBox support
 * Dependency checking (php libs, WP plugins, vendor libs)
 * Snippets, re-usable php functions to extend the core (includes urls.snippet.php as an example)
 * Supports dynamic widget loading
@@ -73,8 +70,6 @@ A more advanced setup would look like:
         // Configure debugging
         'debug' => array(
             'enable_debug' => TRUE,
-            'enable_pixel_perfect' => FALSE,
-            'enable_wienre' => FALSE,
         ),
         
         // Define theme dependencies
@@ -217,12 +212,4 @@ A wrapper for print_r, includes pre tags around the output.
 
 #### debug($mixed)
 Same as pr() but includes some additional information, such as file name and line number where debug was called. 
-
-### Debug class
-
-#### weinre
-Injects weinre js script into header when enabled. - http://people.apache.org/~pmuellr/weinre/docs/latest/ 
-
-#### pixelperfect
-Injects pixelperfect js into header when enabled. 
 
