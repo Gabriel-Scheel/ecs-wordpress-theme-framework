@@ -17,7 +17,6 @@
  */
 
 require_once CORE_PATH . '/Theme.php';
-require_once APP_PATH . '/CustomDecorator.php';
 
 /**
  * Theme
@@ -38,12 +37,8 @@ class CustomTheme extends Theme
 	public function run($config = array())
 	{
 		parent::run($config);
-		
-		// Load our own decorator
-		$this->Decorator = new CustomDecorator();
-		$this->Decorator->run();
 	}
 }
 
 /* End of file CustomTheme.php */
-/* Location: ./lib/CustomTheme.php */
+/* Location: ./app/CustomTheme.php */

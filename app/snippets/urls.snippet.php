@@ -40,3 +40,6 @@ function ecs_page_url_by_slug($page_slug='', $type='page')
 	$page = $wpdb->get_var("SELECT ID FROM wp_posts WHERE post_name = '{$page_slug}' AND post_type = '{$type}'");
 	return get_permalink($page);
 }
+
+/* End of file urls.snippet.php */
+/* Location: ./app/snippets/urls.snippet.php */

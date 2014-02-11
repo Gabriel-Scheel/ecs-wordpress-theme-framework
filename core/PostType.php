@@ -206,4 +206,4 @@ class PostType
 }
 
 /* End of file PostType.php */
-/* Location: ./PostType.php */
+/* Location: ./core/PostType.php */

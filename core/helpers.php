@@ -49,4 +49,4 @@ if (!function_exists('debug'))
 }
 
 /* End of file functions.php */
-/* Location: ./lib/functions.php */
+/* Location: ./core/functions.php */

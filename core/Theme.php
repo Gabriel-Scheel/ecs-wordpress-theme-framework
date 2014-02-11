@@ -27,9 +27,9 @@ define('POSTTYPES_PATH', THEME_PATH . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SE
 define('SNIPPETS_PATH', THEME_PATH . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'snippets');
 
 // Load MetaBox
-define('RWMB_URL', get_template_directory_uri() . DIRECTORY_SEPARATOR . 'vendors' . DIRECTORY_SEPARATOR . 'meta_box' . DIRECTORY_SEPARATOR);
-define('RWMB_DIR', VENDOR_PATH . DIRECTORY_SEPARATOR . 'meta_box' . DIRECTORY_SEPARATOR);
-require_once VENDOR_PATH . DIRECTORY_SEPARATOR . 'meta_box' . DIRECTORY_SEPARATOR . 'meta-box.php';
+define('RWMB_URL', get_template_directory_uri() . DIRECTORY_SEPARATOR . 'vendors' . DIRECTORY_SEPARATOR . 'meta-box' . DIRECTORY_SEPARATOR);
+define('RWMB_DIR', VENDOR_PATH . DIRECTORY_SEPARATOR . 'meta-box' . DIRECTORY_SEPARATOR);
+require_once VENDOR_PATH . DIRECTORY_SEPARATOR . 'meta-box' . DIRECTORY_SEPARATOR . 'meta-box.php';
 
 /**
  * Theme Class
@@ -613,4 +613,4 @@ class Theme
 }
 
 /* End of file Theme.php */
-/* Location: ./lib/Theme.php */
+/* Location: ./core/Theme.php */
