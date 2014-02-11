@@ -18,17 +18,17 @@ This is an attempt to speed up some of the more tedious aspects of creating an a
 ## Structure
 /app - _Custom libraries, to extend core (CustomTheme, CustomDectorator, etc)_
 
-/core - _core theme libraries. Best practice is to not edit these files directly_
+/app/partials - _template parts, re-usable template blocks_
 
-/partials - _template parts, re-usable template blocks_
+/app/post_types - _post type models go here_
 
-/post_types - _post type models go here_
+/app/shortcodes - _shortcode classes go here_
 
-/shortcodes - _shortcode classes go here_
+/app/widgets - _widget classes and assets go here_
 
-/widgets - _widget classes and assets go here_
+/app/snippets - _php includes go here_
 
-/snippets - _php includes go here_
+/core - _core framework scripts_
 
 /assets - _css, img, js, sass, etc._
 

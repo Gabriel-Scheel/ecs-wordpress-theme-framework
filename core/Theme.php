@@ -15,20 +15,16 @@
  * @link       http://roylindauer.com
  */
 
-require_once CORE_PATH . '/Debug.php';
-require_once CORE_PATH . '/Help.php';
-require_once CORE_PATH . '/Decorator.php';
 require_once CORE_PATH . '/PostType.php';
 require_once CORE_PATH . '/Inflector.php';
 
 // Define core paths
 define('VENDOR_PATH', THEME_PATH . DIRECTORY_SEPARATOR . 'vendors');
-define('INC_PATH', THEME_PATH . DIRECTORY_SEPARATOR . 'partials');
-define('WIDGET_PATH', THEME_PATH . DIRECTORY_SEPARATOR . 'widgets');
-define('SHORTCODE_PATH', THEME_PATH . DIRECTORY_SEPARATOR . 'shortcodes');
-define('POSTTYPES_PATH', THEME_PATH . DIRECTORY_SEPARATOR . 'post_types');
-define('HELP_PATH', THEME_PATH . DIRECTORY_SEPARATOR . 'help');
-define('SNIPPETS_PATH', THEME_PATH . DIRECTORY_SEPARATOR . 'snippets');
+define('INC_PATH', THEME_PATH . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'partials');
+define('WIDGET_PATH', THEME_PATH . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'widgets');
+define('SHORTCODE_PATH', THEME_PATH . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'shortcodes');
+define('POSTTYPES_PATH', THEME_PATH . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'post_types');
+define('SNIPPETS_PATH', THEME_PATH . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'snippets');
 
 // Load MetaBox
 define('RWMB_URL', get_template_directory_uri() . DIRECTORY_SEPARATOR . 'vendors' . DIRECTORY_SEPARATOR . 'meta_box' . DIRECTORY_SEPARATOR);
@@ -60,7 +56,6 @@ class Theme
 	 */
 	private $config = array(
 		'name' => 'mytheme',
-		'debug' => array(),
 		'post_types' => array()
 	);
 
@@ -70,27 +65,6 @@ class Theme
 	 * @var type 
 	 */
 	private $_theme_information = FALSE;
-
-	/**
-	 * Debug Object.
-	 * 
-	 * @var Debug
-	 */
-	public $Debug = NULL;
-
-	/**
-	 * Help Object.
-	 * 
-	 * @var Help
-	 */
-	public $Help = NULL;
-
-	/**
-	 * Decorator Object.
-	 * 
-	 * @var Decorator
-	 */
-	public $Decorator = NULL;
 	
 	/**
 	 * Collection of post type objects.
@@ -118,14 +92,10 @@ class Theme
 
 		$this->_check_dependencies();
 
-		$this->_register_assets();
- 		$this->_enqueue_assets();
-
 		$this->_register_post_types();
 
-		$this->_setup_debug();
-		$this->_setup_help();
-		$this->_setup_decorator();
+		$this->_register_assets();
+ 		$this->_enqueue_assets();
 		
 		$this->_register_widgets();
 
@@ -404,51 +374,6 @@ class Theme
 				}
 			}
 		}
-	}
-
-	////////////////////////////////////////////////////////////////////////////////
-	//
-	// Setup Debugging
-	//
-	////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 *
-	 */
-	private function _setup_debug()
-	{
-		$this->Debug = new Debug();
-		$this->Debug->run($this->config('debug'));
-	}
-
-	////////////////////////////////////////////////////////////////////////////////
-	//
-	// Theme Contextual Help
-	//
-	////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 *
-	 */
-	private function _setup_help()
-	{
-		$this->Help = new Help(&$this);
-		$this->Help->run();
-	}
-
-	////////////////////////////////////////////////////////////////////////////////
-	//
-	// Theme Specific Decorators
-	//
-	////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * 
-	 */
-	private function _setup_decorator()
-	{
-		$this->Decorator = new Decorator();
-		$this->Decorator->run();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////
