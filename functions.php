@@ -15,12 +15,28 @@
  * @link       http://roylindauer.com
  */
 
+// Define base paths
 define('THEME_PATH', dirname(realpath(__FILE__)));
 define('CORE_PATH', THEME_PATH . DIRECTORY_SEPARATOR . 'core');
 define('APP_PATH', THEME_PATH . DIRECTORY_SEPARATOR . 'app');
 
+// Define core paths
+define('VENDOR_PATH', THEME_PATH . DIRECTORY_SEPARATOR . 'vendors');
+define('INC_PATH', THEME_PATH . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'partials');
+define('WIDGET_PATH', THEME_PATH . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'widgets');
+define('SHORTCODE_PATH', THEME_PATH . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'shortcodes');
+define('POSTTYPES_PATH', THEME_PATH . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'post_types');
+define('SNIPPETS_PATH', THEME_PATH . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'snippets');
+
 require_once CORE_PATH . '/helpers.php';
+require_once CORE_PATH . '/PostType.php';
+require_once CORE_PATH . '/Inflector.php';
 require_once APP_PATH . '/CustomTheme.php';
+
+// Load MetaBox
+define('RWMB_URL', get_template_directory_uri() . DIRECTORY_SEPARATOR . 'vendors' . DIRECTORY_SEPARATOR . 'meta-box' . DIRECTORY_SEPARATOR);
+define('RWMB_DIR', VENDOR_PATH . DIRECTORY_SEPARATOR . 'meta-box' . DIRECTORY_SEPARATOR);
+require_once VENDOR_PATH . DIRECTORY_SEPARATOR . 'meta-box' . DIRECTORY_SEPARATOR . 'meta-box.php';
 
 $theme = new CustomTheme();
 $theme->run(array(

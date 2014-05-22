@@ -15,22 +15,6 @@
  * @link       http://roylindauer.com
  */
 
-require_once CORE_PATH . '/PostType.php';
-require_once CORE_PATH . '/Inflector.php';
-
-// Define core paths
-define('VENDOR_PATH', THEME_PATH . DIRECTORY_SEPARATOR . 'vendors');
-define('INC_PATH', THEME_PATH . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'partials');
-define('WIDGET_PATH', THEME_PATH . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'widgets');
-define('SHORTCODE_PATH', THEME_PATH . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'shortcodes');
-define('POSTTYPES_PATH', THEME_PATH . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'post_types');
-define('SNIPPETS_PATH', THEME_PATH . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'snippets');
-
-// Load MetaBox
-define('RWMB_URL', get_template_directory_uri() . DIRECTORY_SEPARATOR . 'vendors' . DIRECTORY_SEPARATOR . 'meta-box' . DIRECTORY_SEPARATOR);
-define('RWMB_DIR', VENDOR_PATH . DIRECTORY_SEPARATOR . 'meta-box' . DIRECTORY_SEPARATOR);
-require_once VENDOR_PATH . DIRECTORY_SEPARATOR . 'meta-box' . DIRECTORY_SEPARATOR . 'meta-box.php';
-
 /**
  * Theme Class
  *
@@ -123,7 +107,7 @@ class Theme
 	/**
 	 * @param string  language string to return
 	 */
-	public function lang($str='')
+	public function __($str='')
 	{
 		return __($str, $this->config('name'));
 	}
@@ -341,7 +325,7 @@ class Theme
 				if (!class_exists($class))
 				{
 					echo '<div class="error"><p>'
-					. sprintf($this->lang('Please make sure that %s is installed'), $class)
+					. sprintf($this->__('Please make sure that %s is installed'), $class)
 					. '</p></div>';
 				}
 			}
@@ -355,7 +339,7 @@ class Theme
 				if (!is_plugin_active($plugin))
 				{
 					echo '<div class="error"><p>'
-					. sprintf($this->lang('This theme depends on the Plugin %s being installed &amp; activated'), $name)
+					. sprintf($this->__('This theme depends on the Plugin %s being installed &amp; activated'), $name)
 					. '</p></div>';
 				}
 			}
@@ -369,7 +353,7 @@ class Theme
 				if (!file_exists(VENDOR_PATH . DIRECTORY_SEPARATOR . $vendor))
 				{
 					echo '<div class="error"><p>'
-					. sprintf($this->lang('This theme depends on the Vendor package %s being present'), $name)
+					. sprintf($this->__('This theme depends on the Vendor package %s being present'), $name)
 					. '</p></div>';
 				}
 			}
@@ -406,7 +390,7 @@ class Theme
 
 			if (!file_exists($post_type_path))
 			{
-				$this->add_theme_error(sprintf($this->lang('Could not find post type: %s'), $post_type), 'theme', 'theme');
+				$this->add_theme_error(sprintf($this->__('Could not find post type: %s'), $post_type), 'theme', 'theme');
 				continue;
 			}
 
@@ -449,7 +433,7 @@ class Theme
 
 			if (!file_exists($widget_path))
 			{
-				$this->add_theme_error(sprintf($this->lang('Could not find widget: %s'), $widget), 'theme', 'theme');
+				$this->add_theme_error(sprintf($this->__('Could not find widget: %s'), $widget), 'theme', 'theme');
 				continue;
 			}
 
@@ -462,11 +446,15 @@ class Theme
 	//
 	// Load code snippets. 
 	// 
-	// Code snippets are re-usable code packages to extend functionality of the theme 
-	// without bloating the core libraries.
+	// Code snippets are collections of functions to extend functionality of the theme 
+	// without bloating the core libraries. Sometimes you just need to include a
+	// st of functions
 	//
 	////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * 
+	 */
 	private function _load_snippets()
 	{
 		if ($handle = opendir(SNIPPETS_PATH))
@@ -565,7 +553,7 @@ class Theme
 
 		if ($this->config('debug.enable_debug') === TRUE)
 		{
-			echo '<div class="__theme_errors"><h4>'.$this->lang('Theme Errors & Warnings').'</h4><ul>';
+			echo '<div class="__theme_errors"><h4>'.$this->__('Theme Errors & Warnings').'</h4><ul>';
 			echo $output;
 			echo '</ul></div>';
 		}
