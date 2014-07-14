@@ -350,7 +350,7 @@ class Theme
 		{
 			foreach ($this->config('dependencies.vendors') as $name => $vendor)
 			{
-				if (!file_exists(VENDOR_PATH . DIRECTORY_SEPARATOR . $vendor))
+				if (!file_exists(THEME_PATH . DIRECTORY_SEPARATOR . 'vendors' . DIRECTORY_SEPARATOR . $vendor))
 				{
 					echo '<div class="error"><p>'
 					. sprintf($this->__('This theme depends on the Vendor package %s being present'), $name)
@@ -386,7 +386,7 @@ class Theme
 
 		foreach ($this->config('post_types') as $post_type)
 		{
-			$post_type_path = POSTTYPES_PATH . DIRECTORY_SEPARATOR . $post_type . '.PostType.php';
+			$post_type_path = THEME_PATH . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'post_types' . DIRECTORY_SEPARATOR . $post_type . '.PostType.php';
 
 			if (!file_exists($post_type_path))
 			{
@@ -429,7 +429,7 @@ class Theme
 
 		foreach ($this->config('widgets') as $widget)
 		{
-			$widget_path = WIDGET_PATH . DIRECTORY_SEPARATOR . $widget . '.Widget.php';
+			$widget_path = THEME_PATH . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'widgets' . DIRECTORY_SEPARATOR . $widget . '.Widget.php';
 
 			if (!file_exists($widget_path))
 			{
@@ -457,13 +457,13 @@ class Theme
 	 */
 	private function _load_snippets()
 	{
-		if ($handle = opendir(SNIPPETS_PATH))
+		if ($handle = opendir(THEME_PATH . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'snippets'))
 		{
 			while (FALSE !== ($file = readdir($handle)))
 			{
 				if ($file != "." && $file != ".." && strtolower(substr($file, strpos($file, '.') + 1)) == 'snippet.php')
 				{
-					include_once SNIPPETS_PATH . DIRECTORY_SEPARATOR . $file;
+					include_once THEME_PATH . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'snippets' . DIRECTORY_SEPARATOR . $file;
 				}
 			}
 			closedir($handle);
@@ -541,9 +541,6 @@ class Theme
 		{
 			return;
 		}
-
-		#$messages = $wp_theme_error->get_error_messages($wp_theme_error_code);
-		#$data	= $wp_theme_error->get_error_data($wp_theme_error_code);
 
 		$output = '';
 		foreach ($wp_theme_error->errors[$wp_theme_error_code] as $error)

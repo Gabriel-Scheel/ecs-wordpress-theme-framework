@@ -29,9 +29,6 @@ global $theme;
 
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-
-	<!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-	<link href="http://noblestudios.com/favicon.ico" rel="shortcut icon">
 	
 	<?php wp_head(); ?>
  

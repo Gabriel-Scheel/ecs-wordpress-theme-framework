@@ -15,30 +15,10 @@
  * @link       http://roylindauer.com
  */
 
-// Define base paths
-define('THEME_PATH', dirname(realpath(__FILE__)));
-define('CORE_PATH', THEME_PATH . DIRECTORY_SEPARATOR . 'core');
-define('APP_PATH', THEME_PATH . DIRECTORY_SEPARATOR . 'app');
-
-// Define core paths
-define('VENDOR_PATH', THEME_PATH . DIRECTORY_SEPARATOR . 'vendors');
-define('INC_PATH', THEME_PATH . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'partials');
-define('WIDGET_PATH', THEME_PATH . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'widgets');
-define('SHORTCODE_PATH', THEME_PATH . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'shortcodes');
-define('POSTTYPES_PATH', THEME_PATH . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'post_types');
-define('SNIPPETS_PATH', THEME_PATH . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'snippets');
-
-require_once CORE_PATH . '/helpers.php';
-require_once CORE_PATH . '/PostType.php';
-require_once CORE_PATH . '/Inflector.php';
-require_once APP_PATH . '/CustomTheme.php';
-
-// Load MetaBox
-define('RWMB_URL', get_template_directory_uri() . DIRECTORY_SEPARATOR . 'vendors' . DIRECTORY_SEPARATOR . 'meta-box' . DIRECTORY_SEPARATOR);
-define('RWMB_DIR', VENDOR_PATH . DIRECTORY_SEPARATOR . 'meta-box' . DIRECTORY_SEPARATOR);
-require_once VENDOR_PATH . DIRECTORY_SEPARATOR . 'meta-box' . DIRECTORY_SEPARATOR . 'meta-box.php';
+require 'core/common.php';
 
 $theme = new CustomTheme();
+
 $theme->run(array(
 	// Set some defaults
 	'name' => 'my-theme-name',
@@ -51,9 +31,7 @@ $theme->run(array(
 	
 	// Configure debugging
 	'debug' => array(
-		'enable_debug' => TRUE,
-		'enable_pixel_perfect' => FALSE,
-		'enable_wienre' => FALSE,
+		'enable_debug' => TRUE
 	),
 
 	// Define theme features
@@ -84,34 +62,11 @@ $theme->run(array(
 				'dependencies' => FALSE,
 				'version' => 'v1'
 			),
-			'fontawesome' => array(
-				'source' => get_stylesheet_directory_uri() . '/assets/vendors/font-awesome/css/font-awesome.min.css',
-				'dependencies' => FALSE,
-				'version' => 'v1'
-			),
 		),
 		'scripts' => array(
-			'myjquery' => array(
-				'source' => get_stylesheet_directory_uri() . '/assets/js/vendor/jquery-1.9.1.min.js',
-				'dependencies' => FALSE,
-				'version' => 'v1.9.1',
-				'in_footer' => TRUE
-			),
-			'modernizr' => array(
-				'source' => get_stylesheet_directory_uri() . '/assets/js/vendor/modernizr.min.js',
-				'dependencies' => FALSE,
-				'version' => 'v2.6.2',
-				'in_footer' => FALSE
-			),
-			'plugins' => array(
-				'source' => get_stylesheet_directory_uri() . '/assets/js/plugins.js',
-				'dependencies' => array('myjquery'),
-				'version' => 'v1',
-				'in_footer' => TRUE
-			),
 			'main' => array(
 				'source' => get_stylesheet_directory_uri() . '/assets/js/main.js',
-				'dependencies' => array('plugins'),
+				'dependencies' => FALSE,
 				'version' => 'v1',
 				'in_footer' => TRUE
 			),

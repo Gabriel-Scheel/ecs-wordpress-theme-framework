@@ -48,5 +48,5 @@ if (!function_exists('debug'))
 	}
 }
 
-/* End of file functions.php */
-/* Location: ./core/functions.php */
+/* End of file helpers.php */
+/* Location: ./core/helpers.php */
