@@ -18,6 +18,8 @@ class Options
 
 	public $page_name = 'ecs-theme-options';
 
+	public $Inflector;
+
 	/**
 	 *
 	 */
@@ -35,6 +37,9 @@ class Options
 		{
 			return;
 		}
+
+
+		$this->Inflector = new Inflector();
 
 		foreach ($params as $option_set => $set)
 		{
@@ -80,8 +85,6 @@ class Options
 	 */
 	public function theme_options_init()
 	{
-		$Inflector = new Inflector();
-
 		foreach ($this->option_fields as $section => $set)
 		{
 			// Load option values from database
@@ -97,7 +100,7 @@ class Options
 
 			add_settings_section(
 				$section,                             // ID Attribute
-				$Inflector->titleize($section),       // Title of the Section
+				$this->Inflector->titleize($section),       // Title of the Section
 				array(&$this, 'render_section'),      // Callback to render output of section
 				$this->page_name                      // Page to display section on
 			);
@@ -228,8 +231,9 @@ class Options
 			return;
 		}
 
-		foreach ($args['value'] as $k => $v)
+		foreach ($args['value'] as $v)
 		{
+			$k = $this->Inflector->underscore($v);
 			$selected  = ($k == $value) ? 'checked="checked"' : false ;
 
 			echo '<input 
@@ -255,9 +259,10 @@ class Options
 
 		echo '<select name="' . $args['section'] . '[' . $args['name'] . ']">';
 		echo '<option value="">- Select -</option>';
-		foreach ($args['value'] as $k => $v)
+		foreach ($args['value'] as $v)
 		{
-			$selected  = ($k != "" && $k == $value) ? 'selected="selected"' : false ;
+			$k = $this->Inflector->underscore($v);
+			$selected  = ($k == $value) ? 'selected="selected"' : false ;
 
 			echo '<option 
 					value="' . $k . '"

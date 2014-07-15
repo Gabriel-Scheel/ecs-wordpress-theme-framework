@@ -67,7 +67,7 @@ $theme->run(array(
 				'label' => 'Select',
 				'name' => 'my-option-select',
 				'type' => 'select',
-				'value' => array(1, 2, 3)
+				'value' => array('Check it check it check it', 2, 3)
 			),
 		),
 	),
