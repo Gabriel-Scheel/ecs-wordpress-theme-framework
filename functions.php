@@ -17,6 +17,7 @@
 
 require 'core/common.php';
 
+$theme = new Theme();
 $theme->run(array(
 	// Set some defaults
 	'name' => 'my-theme-name',
@@ -117,12 +118,6 @@ $theme->run(array(
 		)
 	)
 ));
-
-if (is_admin())
-{
-	$options = new Options();
-	$options->run($theme->config('theme_options'));
-}
 
 /* End of file functions.php */
 /* Location: ./functions.php */

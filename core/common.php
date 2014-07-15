@@ -35,7 +35,5 @@ define('RWMB_URL', get_template_directory_uri() . DIRECTORY_SEPARATOR . 'vendors
 define('RWMB_DIR', THEME_PATH . DIRECTORY_SEPARATOR . 'vendors' . DIRECTORY_SEPARATOR . 'meta-box' . DIRECTORY_SEPARATOR);
 require_once THEME_PATH . DIRECTORY_SEPARATOR . 'vendors' . DIRECTORY_SEPARATOR . 'meta-box' . DIRECTORY_SEPARATOR . 'meta-box.php';
 
-$theme = new Theme();
-
 /* End of file common.php */
 /* Location: ./core/commomn.php */

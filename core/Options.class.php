@@ -16,8 +16,14 @@ class Options
 	 */
 	public $options = array();
 
+	/**
+	 *
+	 */
 	public $page_name = 'ecs-theme-options';
 
+	/**
+	 *
+	 */
 	public $Inflector;
 
 	/**
@@ -44,10 +50,52 @@ class Options
 		foreach ($params as $option_set => $set)
 		{
 			$this->option_fields[$option_set] = $set;
+
+			// Load option values from database
+			$this->options[$option_set] = get_option($option_set); //ecs-theme-options
 		}
 
 		$this->_theme_options_init();
-		$this->_register_admin_menus();
+		
+		if (is_admin())
+		{
+			$this->_register_admin_menus();
+		}
+	}
+
+	/**
+	 * Reteive option value from option set
+	 *
+	 * @param string $key set to retrieve option from
+	 * @param string $option option value to retrieve
+	 * @return mixed
+	 *
+	 */
+	public function get($key, $option)
+	{
+		try
+		{
+			if (!is_array($this->options))
+			{
+				throw new Exception('Did not load options from database. Have you run Options::run()?');
+			}
+
+			if (!array_key_exists($key, $this->options))
+			{
+				throw new Exception('Option set (' . $key . ') does not exist in options array');
+			}
+
+			if (!array_key_exists($option, $this->options[$key]))
+			{
+				throw new Exception('Option value (' . $option . ') does not exist in options set');
+			}
+
+			return $this->options[$key][$option];
+		}
+		catch (Exception $e)
+		{
+			wp_die($e->getMessage());
+		}
 	}
 
 	/**
@@ -87,8 +135,6 @@ class Options
 	{
 		foreach ($this->option_fields as $section => $set)
 		{
-			// Load option values from database
-			$this->options[$section] = get_option($section); //ecs-theme-options
 
 			// Register Setting Group
 			// This is the group that all of our options will be saved to
