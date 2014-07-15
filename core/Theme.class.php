@@ -70,8 +70,6 @@ class Theme
 		$this->config = array_merge($this->config, $config);
 		$this->write_config('version', $this->_theme_information->Version);
 
-		$this->_load_snippets();
-
 		$this->_register_error_handler();
 
 		$this->_check_dependencies();
@@ -83,8 +81,8 @@ class Theme
 		
 		$this->_register_widgets();
 
-		// $this->_register_menus();
-		// $this->_register_image_sizes();
+		$this->_load_snippets();
+
 		$this->_register_theme_features();
 
 	}
@@ -595,6 +593,7 @@ class Theme
 		}
 		
 	}
+
 }
 
 /* End of file Theme.php */

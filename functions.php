@@ -17,8 +17,6 @@
 
 require 'core/common.php';
 
-$theme = new CustomTheme();
-
 $theme->run(array(
 	// Set some defaults
 	'name' => 'my-theme-name',
@@ -34,7 +32,48 @@ $theme->run(array(
 		'enable_debug' => TRUE
 	),
 
+	// Custom Theme Options
+	'theme_options' => array(
+		// The option section name. 
+		'ecs-theme-options' => array( 
+			// Field Definition - Text
+			array(
+				'label' => 'Text',
+				'name' => 'my-option',
+				'type' => 'text',
+			),
+			// Field Definition - Textarea
+			array(
+				'label' => 'Textarea',
+				'name' => 'my-option-textarea',
+				'type' => 'textarea',
+			),
+			// Field Definition - Checkbox
+			array(
+				'label' => 'Checkbox',
+				'name' => 'my-option-checkboxes',
+				'type' => 'checkbox',
+				'value' => 'Yes'
+			),
+			// Field Definition - Checkbox
+			array(
+				'label' => 'Radio',
+				'name' => 'my-option-radio',
+				'type' => 'radio',
+				'value' => array(1, 2, 3)
+			),
+			// Field Definition - Checkbox
+			array(
+				'label' => 'Select',
+				'name' => 'my-option-select',
+				'type' => 'select',
+				'value' => array(1, 2, 3)
+			),
+		),
+	),
+
 	// Define theme features
+	// http://codex.wordpress.org/Function_Reference/add_theme_support
 	'theme_features' => array(
 		'post-thumbnails',
 		'post-formats' => array(
@@ -44,6 +83,9 @@ $theme->run(array(
 	),
 	
 	// Define theme dependencies
+	// For plugins, include the path (relative to the plugin directory) to the plugin file
+	// Classes are PHP classes your theme depends on
+	// Vendors are 3rd party libraries your theme depends on. For example, this framework depends on the MetaBox library
 	'dependencies' => array(
 		'plugins' => array(
 			'Google Analytics' => 'googleanalytics/googleanalytics.php'
@@ -51,7 +93,9 @@ $theme->run(array(
 		'classes' => array(
 			'Imagick',
 		),
-		'vendors' => array(),
+		'vendors' => array(
+			'MetaBox' => 'meta-box/meta-box.php'
+		),
 	),
 	
 	// Define stylesheets and scripts
@@ -73,6 +117,12 @@ $theme->run(array(
 		)
 	)
 ));
+
+if (is_admin())
+{
+	$options = new Options();
+	$options->run($theme->config('theme_options'));
+}
 
 /* End of file functions.php */
 /* Location: ./functions.php */

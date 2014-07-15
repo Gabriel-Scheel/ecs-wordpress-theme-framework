@@ -16,8 +16,6 @@
  * @link       http://roylindauer.com
  */
 
-require_once CORE_PATH . '/Theme.php';
-
 /**
  * Theme
  * 
