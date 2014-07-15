@@ -1,33 +1,60 @@
 <?php
+/**
+ * Wordpress Options Class
+ *
+ * PHP version 5
+ *
+ * LICENSE: 
+ *
+ * @category   ECS_WP_ThemeCore
+ * @package    Core
+ * @subpackage Option
+ * @author     Roy Lindauer <hello@roylindauer.com>
+ * @copyright  2013 Roy Lindauer
+ * @license    http://www.apache.org/licenses/LICENSE-2.0.html  Apache License, Version 2.0
+ * @link       http://roylindauer.com
+ */
 
 /**
+ * Options Class
  *
+ * @category   ECS_WP_ThemeCore
+ * @package    Core
+ * @subpackage Options
+ * @author     Roy Lindauer <hello@roylindauer.com>
+ * @license    http://www.apache.org/licenses/LICENSE-2.0.html  Apache License, Version 2.0
+ * @link       http://roylindauer.com
  */
 class Options 
 {
 
 	/**
-	 *
+	 * @var array user defined option fields
 	 */
 	public $option_fields = array();
 
 	/**
-	 *
+	 * @var array option values stored in database
 	 */
 	public $options = array();
 
 	/**
-	 *
+	 * @var string url slug of the options page
 	 */
 	public $page_name = 'ecs-theme-options';
 
 	/**
-	 *
+	 * @var string page name of the options page
+	 */
+	public $options_page_title = 'ECS Theme Options';
+
+	/**
+	 * @var object Inflector
 	 */
 	public $Inflector;
 
 	/**
-	 *
+	 * 
 	 */
 	public function __construct()
 	{
@@ -35,40 +62,48 @@ class Options
 	}
 
 	/**
-	 *
+	 * Set hooks. Loads option values from database. Sets up Options object. 
+	 * 
+	 * @param array $option_fields user defined option fields
 	 */
-	public function run($params=array())
+	public function run($option_fields=array())
 	{
-		if (empty($params))
+		if (empty($option_fields))
 		{
 			return;
 		}
 
-
 		$this->Inflector = new Inflector();
 
-		foreach ($params as $option_set => $set)
+		foreach ($option_fields as $option_set => $set)
 		{
+			// Store user defined option fields
 			$this->option_fields[$option_set] = $set;
 
 			// Load option values from database
-			$this->options[$option_set] = get_option($option_set); //ecs-theme-options
+			$this->options[$option_set] = get_option($option_set);
 		}
 
-		$this->_theme_options_init();
+		add_action('admin_init', array(&$this, 'theme_options_init'));
 		
 		if (is_admin())
 		{
-			$this->_register_admin_menus();
+			add_action('admin_menu', array(&$this, 'register_admin_menus'));
 		}
 	}
 
 	/**
 	 * Reteive option value from option set
 	 *
+	 * The option values are retreived from the database on load, and stored in $this->options. 
+	 * This helper method will allow you to retreive an option value by key and option name. 
+	 *
+	 * usage: $value = $options->get('option-set', 'option-value');
+	 *
 	 * @param string $key set to retrieve option from
 	 * @param string $option option value to retrieve
-	 * @return mixed
+	 * @return string
+	 * @throws Exception
 	 *
 	 */
 	public function get($key, $option)
@@ -99,21 +134,15 @@ class Options
 	}
 
 	/**
+	 * Register Admin Menu
 	 *
-	 */
-	private function _register_admin_menus()
-	{
-		add_action('admin_menu', array(&$this, 'register_admin_menus'));
-	}
-
-	/**
-	 *
+	 * @return void
 	 */
 	public function register_admin_menus()
 	{
 		add_options_page(
-			'ECS Theme Options',  // Page Title for Options Page
-			'ECS Theme Options',  // Menu Title
+			$this->options_page_title,  // Page Title for Options Page
+			$this->options_page_title,  // Menu Title
 			'manage_options',     // Capabilities
 			$this->page_name,     // Menu Slug
 			array(&$this, 'render_theme_options') // Callback to Render Options Output
@@ -121,15 +150,9 @@ class Options
 	}
 
 	/**
+	 * Register users custom defined theme options and sections
 	 *
-	 */
-	private function _theme_options_init()
-	{
-		add_action('admin_init', array(&$this, 'theme_options_init'));
-	}
-
-	/**
-	 *
+	 * @return void
 	 */
 	public function theme_options_init()
 	{
@@ -168,7 +191,9 @@ class Options
 	}
 
 	/**
-	 * 
+	 * Render Theme Options page
+	 *
+	 * @return void
 	 */
 	public function render_theme_options()
 	{
@@ -180,7 +205,7 @@ class Options
 		global $theme;
 		?>
 		<div class="wrap">
-			<?php screen_icon('themes'); ?> <h2><?php echo $theme->__('ECS Theme Options'); ?></h2>
+			<?php screen_icon('themes'); ?> <h2><?php echo $this->options_page_title; ?></h2>
 
 			<form method="post" action="options.php">
 				<?php foreach ($this->option_fields as $section => $name): ?>
@@ -194,7 +219,9 @@ class Options
 	}
 
 	/**
-	 * 
+	 * Render theme option section header
+	 *
+	 * @return void
 	 */
 	public function render_section()
 	{
@@ -202,7 +229,11 @@ class Options
 	}
 
 	/**
-	 * 
+	 * Render field meta function
+	 *
+	 * @param array $args field data based in via callback
+	 * @return void
+	 *
 	 */
 	public function render_field($args)
 	{
@@ -227,7 +258,12 @@ class Options
 	}
 
 	/**
-	 * 
+	 * Render text field
+	 *
+	 * @param array $args field data based in via callback
+	 * @param string $value field value
+	 * @return void
+	 *
 	 */
 	private function render_text_field($args, $value)
 	{
@@ -240,7 +276,12 @@ class Options
 	}
 
 	/**
-	 * 
+	 * Render textarea field
+	 *
+	 * @param array $args field data based in via callback
+	 * @param string $value field value
+	 * @return void
+	 *
 	 */
 	private function render_textarea_field($args, $value)
 	{
@@ -252,7 +293,12 @@ class Options
 	}
 
 	/**
-	 * 
+	 * Render checkbox field
+	 *
+	 * @param array $args field data based in via callback
+	 * @param string $value field value
+	 * @return void
+	 *
 	 */
 	private function render_checkbox_field($args, $value)
 	{
@@ -268,7 +314,12 @@ class Options
 	}
 
 	/**
-	 * 
+	 * Render radio fields with labels
+	 *
+	 * @param array $args field data based in via callback
+	 * @param string $value field value
+	 * @return void
+	 *
 	 */
 	private function render_radio_field($args, $value)
 	{
@@ -294,7 +345,12 @@ class Options
 	}
 
 	/**
-	 * 
+	 * Render select field with options
+	 *
+	 * @param array $args field data based in via callback
+	 * @param string $value field value
+	 * @return void
+	 *
 	 */
 	private function render_select_field($args, $value)
 	{
@@ -319,3 +375,6 @@ class Options
 		echo '</select>';
 	}
 }
+
+/* End of file Options.class.php */
+/* Location: ./core/Options.class.php */

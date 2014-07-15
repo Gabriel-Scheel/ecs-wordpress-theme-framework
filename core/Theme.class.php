@@ -604,5 +604,5 @@ class Theme
 
 }
 
-/* End of file Theme.php */
-/* Location: ./core/Theme.php */
+/* End of file Theme.class.php */
+/* Location: ./core/Theme.class.php */
