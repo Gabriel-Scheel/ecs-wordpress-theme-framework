@@ -18,22 +18,22 @@
 define('THEME_PATH', dirname(dirname(realpath(__FILE__))));
 define('CORE_PATH', THEME_PATH . DIRECTORY_SEPARATOR . 'core');
 define('APP_PATH', THEME_PATH . DIRECTORY_SEPARATOR . 'app');
+define('VENDOR_PATH', THEME_PATH . DIRECTORY_SEPARATOR . 'vendors');
 
+// Load required libs
 require_once CORE_PATH . DIRECTORY_SEPARATOR . 'helpers.php';
 require_once CORE_PATH . DIRECTORY_SEPARATOR . 'Theme.class.php';
 require_once CORE_PATH . DIRECTORY_SEPARATOR . 'Options.class.php';
 require_once CORE_PATH . DIRECTORY_SEPARATOR . 'PostType.class.php';
 require_once CORE_PATH . DIRECTORY_SEPARATOR . 'Inflector.class.php';
 
+// Load required vendors
+require_once VENDOR_PATH . DIRECTORY_SEPARATOR . 'plugin-activation' . DIRECTORY_SEPARATOR . 'class-tgm-plugin-activation.php';
+
 // Load optional Custom Theme Class
 if (file_exists(APP_PATH . DIRECTORY_SEPARATOR . 'CustomTheme.php')) {
 	require_once APP_PATH . DIRECTORY_SEPARATOR . 'CustomTheme.php';
 }
-
-// Load MetaBox
-define('RWMB_URL', get_template_directory_uri() . DIRECTORY_SEPARATOR . 'vendors' . DIRECTORY_SEPARATOR . 'meta-box' . DIRECTORY_SEPARATOR);
-define('RWMB_DIR', THEME_PATH . DIRECTORY_SEPARATOR . 'vendors' . DIRECTORY_SEPARATOR . 'meta-box' . DIRECTORY_SEPARATOR);
-require_once THEME_PATH . DIRECTORY_SEPARATOR . 'vendors' . DIRECTORY_SEPARATOR . 'meta-box' . DIRECTORY_SEPARATOR . 'meta-box.php';
 
 /* End of file common.php */
 /* Location: ./core/commomn.php */

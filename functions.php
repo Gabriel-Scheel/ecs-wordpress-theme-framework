@@ -84,18 +84,19 @@ $theme->run(array(
 	),
 	
 	// Define theme dependencies
-	// For plugins, include the path (relative to the plugin directory) to the plugin file
-	// Classes are PHP classes your theme depends on
-	// Vendors are 3rd party libraries your theme depends on. For example, this framework depends on the MetaBox library
+	// Require WP Plugins - http://tgmpluginactivation.com/
+	// Require Core PHP Classes / Libraries
 	'dependencies' => array(
 		'plugins' => array(
-			'Google Analytics' => 'googleanalytics/googleanalytics.php'
+			// MetaBox is amazing, and we use it in the PostType model
+			array(
+				'name'      => 'MetaBox',
+				'slug'      => 'meta-box',
+				'required'  => true,
+			)
 		),
 		'classes' => array(
 			'Imagick',
-		),
-		'vendors' => array(
-			'MetaBox' => 'meta-box/meta-box.php'
 		),
 	),
 	
