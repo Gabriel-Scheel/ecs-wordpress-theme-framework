@@ -17,7 +17,8 @@
 
 require 'core/common.php';
 
-$theme = new Theme();
+$theme = new CustomTheme();
+
 $theme->run(array(
 	// Set some defaults
 	'name' => 'my-theme-name',

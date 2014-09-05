@@ -37,25 +37,11 @@ In functions.php create a new Theme object and pass in a basic configuration arr
 
 The theme name is used as a key for looking up l10n translation strings, etc.
 
-    $theme = new Theme();
+    $theme = new CustomTheme();
     $theme->run(array('name'=>'my-theme-name'));
     
 
-A more advanced setup would look like:
-
-*(CustomTheme extends Theme, and allows us to create new functionality without editing core files)*
-
-**$theme_dir/app/CustomTheme.php**
-
-    class CustomTheme extends Theme
-    {
-        public function run($config = array())
-        {
-            parent::run($config);
-        }
-    }
-
-**$theme_dir/functions.php**
+**A more complete example:**
 
     require_once LIB_PATH . '/CustomTheme.php';
     $theme = new CustomTheme();
@@ -77,12 +63,16 @@ A more advanced setup would look like:
         // Define theme dependencies
         'dependencies' => array(
             'plugins' => array(
-                'Google Analytics' => 'googleanalytics/googleanalytics.php'
+                // MetaBox is amazing, and we use it in the PostType model
+                array(
+                    'name'      => 'MetaBox',
+                    'slug'      => 'meta-box',
+                    'required'  => true,
+                )
             ),
             'classes' => array(
                 'Imagick',
-            ),
-            'vendors' => array(),
+            )
         ),
         
         // Define stylesheets and scripts
@@ -140,7 +130,9 @@ An array of features the post type should support. The default list is:
     );
     
 ### $meta_boxes
-An array of custom meta boxes you wish to include. There are no defaults. An example would look like:
+If the MetaBox Plugin by rilwis is available you can very easily add custom fields to any post type. 
+
+There are no defaults. An example would look like:
 
     public $meta_boxes = array(
             array(

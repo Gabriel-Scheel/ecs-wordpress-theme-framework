@@ -31,9 +31,7 @@ require_once CORE_PATH . DIRECTORY_SEPARATOR . 'Inflector.class.php';
 require_once VENDOR_PATH . DIRECTORY_SEPARATOR . 'plugin-activation' . DIRECTORY_SEPARATOR . 'class-tgm-plugin-activation.php';
 
 // Load optional Custom Theme Class
-if (file_exists(APP_PATH . DIRECTORY_SEPARATOR . 'CustomTheme.php')) {
-	require_once APP_PATH . DIRECTORY_SEPARATOR . 'CustomTheme.php';
-}
+require_once APP_PATH . DIRECTORY_SEPARATOR . 'CustomTheme.php';
 
 /* End of file common.php */
 /* Location: ./core/commomn.php */
