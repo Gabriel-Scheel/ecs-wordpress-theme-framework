@@ -58,11 +58,6 @@ class Theme
 	public $post_types = array();
 
 	/**
-	 * @var object Option
-	 */
-	public $Options;
-
-	/**
 	 * Setup.
 	 * 
 	 * @param array $config
@@ -89,10 +84,6 @@ class Theme
 		$this->_load_snippets();
 
 		$this->_register_theme_features();
-
-		// Load Custom Theme Options
-		$this->Options = new Options();
-		$this->Options->run($this->config('theme_options'));
 	}
 
 	/**
