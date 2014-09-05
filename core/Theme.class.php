@@ -390,20 +390,6 @@ class Theme
 				}
 			}
 		}
-
-		// check plugins
-		if ($this->config('dependencies.plugins') !== FALSE)
-		{
-			foreach ($this->config('dependencies.plugins') as $name => $plugin)
-			{
-				if (!is_plugin_active($plugin))
-				{
-					echo '<div class="error"><p>'
-					. sprintf($this->__('This theme depends on the Plugin %s being installed &amp; activated'), $name)
-					. '</p></div>';
-				}
-			}
-		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////

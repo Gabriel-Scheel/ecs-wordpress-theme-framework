@@ -91,10 +91,16 @@ $theme->run(array(
 		'plugins' => array(
 			// MetaBox is amazing, and we use it in the PostType model
 			array(
-				'name'      => 'MetaBox',
+				'name'      => 'Meta Box',
 				'slug'      => 'meta-box',
 				'required'  => true,
-			)
+			),
+			// Options Framework is also amazing
+			array(
+				'name'      => 'Options Framework',
+				'slug'      => 'options-framework',
+				'required'  => false,
+			),
 		),
 		'classes' => array(
 			'Imagick',
