@@ -29,7 +29,7 @@ This is an attempt to speed up some of the more tedious aspects of creating an a
 
 /assets - _css, img, js, sass, etc._
 
-/vendors - _3rd party plugins, libraries, etc._
+/vendor - _3rd party plugins, libraries, etc._
 
 ## Getting Started
 

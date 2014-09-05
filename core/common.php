@@ -18,7 +18,7 @@
 define('THEME_PATH', dirname(dirname(realpath(__FILE__))));
 define('CORE_PATH', THEME_PATH . DIRECTORY_SEPARATOR . 'core');
 define('APP_PATH', THEME_PATH . DIRECTORY_SEPARATOR . 'app');
-define('VENDOR_PATH', THEME_PATH . DIRECTORY_SEPARATOR . 'vendors');
+define('VENDOR_PATH', THEME_PATH . DIRECTORY_SEPARATOR . 'vendor');
 
 // Load required libs
 require_once CORE_PATH . DIRECTORY_SEPARATOR . 'helpers.php';
