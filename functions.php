@@ -51,46 +51,6 @@ $theme->run(array(
 		'enable_debug' => TRUE
 	),
 
-	// Custom Theme Options
-	'theme_options' => array(
-		// The option section name. 
-		'ecs-theme-options' => array( 
-			// Field Definition - Text
-			array(
-				'label' => 'Text',
-				'name' => 'my-option',
-				'type' => 'text',
-			),
-			// Field Definition - Textarea
-			array(
-				'label' => 'Textarea',
-				'name' => 'my-option-textarea',
-				'type' => 'textarea',
-			),
-			// Field Definition - Checkbox
-			array(
-				'label' => 'Checkbox',
-				'name' => 'my-option-checkboxes',
-				'type' => 'checkbox',
-				'value' => 'Yes'
-			),
-			// Field Definition - Checkbox
-			array(
-				'label' => 'Radio',
-				'name' => 'my-option-radio',
-				'type' => 'radio',
-				'value' => array(1, 2, 3)
-			),
-			// Field Definition - Checkbox
-			array(
-				'label' => 'Select',
-				'name' => 'my-option-select',
-				'type' => 'select',
-				'value' => array('Check it check it check it', 2, 3)
-			),
-		),
-	),
-
 	// Define theme features
 	// http://codex.wordpress.org/Function_Reference/add_theme_support
 	'theme_features' => array(
