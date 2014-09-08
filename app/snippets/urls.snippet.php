@@ -21,7 +21,7 @@
  * @param string $page_title
  * @return string
  */
-function ecs_page_url($page_title='')
+function ecsPageUrl($page_title='')
 {
 	return get_permalink(get_page_by_title($page_title));
 }
@@ -33,7 +33,7 @@ function ecs_page_url($page_title='')
  * @param string $type
  * @return string
  */
-function ecs_page_url_by_slug($page_slug='', $type='page')
+function ecsPageUrlBySlug($page_slug='', $type='page')
 {
 	global $wpdb;
 

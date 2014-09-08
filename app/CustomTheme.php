@@ -1,4 +1,5 @@
 <?php
+namespace Ecs\WordPress;
 
 /**
  * Extends Theme
@@ -28,14 +29,14 @@
  */
 class CustomTheme extends Theme
 {
-	/**
-	 * 
-	 * @param type $config
-	 */
-	public function run($config = array())
-	{
-		parent::run($config);
-	}
+    /**
+     * 
+     * @param type $config
+     */
+    public function run($config = array())
+    {
+        parent::run($config);
+    }
 }
 
 /* End of file CustomTheme.php */

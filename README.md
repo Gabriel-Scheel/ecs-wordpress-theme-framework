@@ -189,11 +189,11 @@ Retrieve config value using dot notation. Returns FALSE if key not found.
 
     $val = $theme->config('settings.mysetting');
     
-#### Theme::write_config();
+#### Theme::writeConfig();
 
 Write data to the $config array, using dot notation.
 
-    $theme->write_config('settings.mysetting', 'myvalue');
+    $theme->writeConfig('settings.mysetting', 'myvalue');
 
 #### Theme::__();
 
