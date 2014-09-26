@@ -169,7 +169,7 @@ class PostType
 
         foreach ($this->meta_boxes as $meta_box) {
             if (is_array($meta_box)) {
-                new RW_Meta_Box($meta_box);
+                new \RW_Meta_Box($meta_box);
             }
         }
     }
