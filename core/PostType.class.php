@@ -97,19 +97,19 @@ class PostType
         
         // Convention over configuration!
         $this->labels = array(
-            'name' =>                   Inflector::humanize(Inflector::pluralize($this->name)),
-            'singular_name' =>          Inflector::humanize('post'),
-            'add_new' =>                sprintf(__('Add New %s'), Inflector::humanize($this->name)),
-            'add_new_item' =>           sprintf(__('Add New %s'), Inflector::humanize($this->name)),
-            'edit_item' =>              sprintf(__('Edit %s'), Inflector::humanize($this->name)),
-            'new_item' =>               sprintf(__('New %s'), Inflector::humanize($this->name)),
-            'all_items' =>              sprintf(__('All %s'), Inflector::humanize(Inflector::pluralize($this->name))),
-            'view_item' =>              sprintf(__('View %s'), Inflector::humanize($this->name)),
-            'search_items' =>           sprintf(__('Search %s'), Inflector::humanize(Inflector::pluralize($this->name))),
-            'not_found' =>              sprintf(__('No %s found'), Inflector::humanize(Inflector::pluralize($this->name))),
-            'not_found_in_trash' =>     sprintf(__('No %s found in trash'), Inflector::humanize(Inflector::pluralize($this->name))),
+            'name' =>                   \Inflector::humanize(\Inflector::pluralize($this->name)),
+            'singular_name' =>          \Inflector::humanize('post'),
+            'add_new' =>                sprintf(__('Add New %s'), \Inflector::humanize($this->name)),
+            'add_new_item' =>           sprintf(__('Add New %s'), \Inflector::humanize($this->name)),
+            'edit_item' =>              sprintf(__('Edit %s'), \Inflector::humanize($this->name)),
+            'new_item' =>               sprintf(__('New %s'), \Inflector::humanize($this->name)),
+            'all_items' =>              sprintf(__('All %s'), \Inflector::humanize(\Inflector::pluralize($this->name))),
+            'view_item' =>              sprintf(__('View %s'), \Inflector::humanize($this->name)),
+            'search_items' =>           sprintf(__('Search %s'), \Inflector::humanize(\Inflector::pluralize($this->name))),
+            'not_found' =>              sprintf(__('No %s found'), \Inflector::humanize(\Inflector::pluralize($this->name))),
+            'not_found_in_trash' =>     sprintf(__('No %s found in trash'), \Inflector::humanize(\Inflector::pluralize($this->name))),
             'parent_item_colon' =>      '',
-            'menu_name' =>              Inflector::humanize(Inflector::pluralize($this->name))
+            'menu_name' =>              \Inflector::humanize(\Inflector::pluralize($this->name))
         );
         
         // Post type defaults

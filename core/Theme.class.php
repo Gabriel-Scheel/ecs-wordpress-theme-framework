@@ -349,7 +349,7 @@ class Theme
 
             require_once $post_type_path;
 
-            $ptype = "Ecs\WordPress\$post_type";
+            $ptype = "Ecs\WordPress\\$post_type";
             $this->post_types[$post_type] = new $ptype;
             $this->post_types[$post_type]->run();
         }
