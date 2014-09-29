@@ -41,7 +41,7 @@ $theme->run(array(
 	'name' => 'my-theme-name',
 
 	// Load post types
-	'post_types' => array(),
+	'post_types' => array('Page', 'Cover'),
 	
 	// Load widgets
 	'widgets' => array(),

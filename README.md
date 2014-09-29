@@ -99,7 +99,10 @@ The Theme uses the following convention for creating and naming post types. If y
 
 The class name should be singular. Our example Articles class would be called Article. The class file name should be singular as well. Article.PostType.php instead of Articles.PostType.php
 
-    class Article extends PostType{
+**Class Name**: Article
+**File Name**: Article.PostType.php
+
+    class Article extends Ecs\WordPress\PostType{
         
     }
 
@@ -170,7 +173,7 @@ An array of custom taxonomies you wish to create.
 
 ### Overwriting Built In Post Types
 
-Sometimes you will need to modify an existing post type, such as adding custom fields. To do so you need to make one small change to your post type class. Namely, you need to override the register method. To modify an existing post type you need to get the post type object, make your changes, and then save that post object back. Otherwise you will end up with two of the same post types in the menu and it will be weird. 
+Sometimes you will need to modify an existing post type, such as adding custom fields to Pages. To do so you need to override the register method. The steps to modify an existing post type are to first get the post type object, make your changes to the post type, and then save that post object back via register_post_type. If you do not do this you will end up with duplicates of the post type in the menu. 
 
     public function register() {
         $post = get_post_type_object('post');
@@ -203,54 +206,7 @@ Convienence wrapper for *__()*. Uses the theme name/id as the domain key for tra
 
 ## Theme Options
 
-There is a very basic custom theme options framework available. 
-
-In your theme config you can pass in an array to create option sections and fields. 
-
-    // Custom Theme Options
-    'theme_options' => array(
-        // The option section name. 
-        'ecs-theme-options' => array( 
-            // Field Definition - Text
-            array(
-                'label' => 'Text',
-                'name' => 'my-option',
-                'type' => 'text',
-            ),
-            // Field Definition - Textarea
-            array(
-                'label' => 'Textarea',
-                'name' => 'my-option-textarea',
-                'type' => 'textarea',
-            ),
-            // Field Definition - Checkbox
-            array(
-                'label' => 'Checkbox',
-                'name' => 'my-option-checkboxes',
-                'type' => 'checkbox',
-                'value' => 'Yes'
-            ),
-            // Field Definition - Checkbox
-            array(
-                'label' => 'Radio',
-                'name' => 'my-option-radio',
-                'type' => 'radio',
-                'value' => array(1, 2, 3)
-            ),
-            // Field Definition - Checkbox
-            array(
-                'label' => 'Select',
-                'name' => 'my-option-select',
-                'type' => 'select',
-                'value' => array(1, 2, 3)
-            ),
-        ),
-    ),
-
-The Options class is available in the Theme object. There is a helper method to retreive values:
-
-    $theme->Options->get($section, $option);
-    $theme->Options->get('ecs-theme-options', 'my-option-checkboxes')
+Use the super nice Theme Options Framework. There is an axample options.php included in the theme.
 
 ## Debugging
 
