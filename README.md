@@ -184,6 +184,21 @@ Sometimes you will need to modify an existing post type, such as adding custom f
         register_post_type(strtolower($this->name), $post);
     }
 
+### Using custom post types as loose models (the M in the MVC design pattern)
+
+You can use the custom post type as a data model, or interface, to the post types records, or related records. 
+
+To get your custom post type you would request it from the class registry:
+
+    $registry = Registry::getInstance();
+    $Article = $registry->get('Article');
+
+Now that you have your Post Type object, you can run whatever methods you have defined in the class. There is a default helper method to retrieve all posts for the current post type. Example:
+
+    $articles = $Article->getAll();
+
+That will return ALL posts for the Article post type. 
+
 ## Theme.php
 Located: $theme_dir/core/Theme.php
 
@@ -220,4 +235,5 @@ A wrapper for print_r, includes pre tags around the output.
 
 #### debug($mixed)
 Same as pr() but includes some additional information, such as file name and line number where debug was called. 
+
 
