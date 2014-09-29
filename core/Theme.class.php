@@ -135,7 +135,7 @@ class Theme
     public function config($index)
     {
         $index = explode('.', $index);
-        return $this->getConfig($index, $this->config);
+        return self::getConfig($index, $this->config);
     }
 
     /**
@@ -143,7 +143,7 @@ class Theme
      */
     public function writeConfig($index, $val='')
     {
-        $this->setConfig($index, $val);
+        self::setConfig($index, $val);
     }
     
     /**

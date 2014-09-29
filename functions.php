@@ -35,6 +35,7 @@ require_once APP_PATH . DS . 'CustomTheme.php';
 // Load required vendors
 require_once VENDOR_PATH . DS . 'plugin-activation' . DS . 'class-tgm-plugin-activation.php';
 
+// Setup Theme
 $theme = new Ecs\WordPress\CustomTheme();
 
 $theme->run(array(
@@ -104,6 +105,9 @@ $theme->run(array(
 		)
 	)
 ));
+
+$registry = \Ecs\WordPress\Registry::getInstance();
+$registry->set('Theme', $theme);
 
 #add_action('wp_footer', function(){ global $theme; pr($theme); });
 
