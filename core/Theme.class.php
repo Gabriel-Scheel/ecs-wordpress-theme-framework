@@ -339,6 +339,8 @@ class Theme
             return;
         }
 
+        $registry = Registry::getInstance();
+
         foreach ($this->config('post_types') as $post_type) {
             $post_type_path = THEME_PATH . DS . 'app' . DS . 'post_types' . DS . $post_type . '.PostType.php';
 
@@ -347,11 +349,15 @@ class Theme
                 continue;
             }
 
-            require_once $post_type_path;
+            include_once $post_type_path;
 
-            $ptype = "$post_type";
-            $this->post_types[$post_type] = new $ptype;
-            $this->post_types[$post_type]->run();
+            // Init object and add to registry
+            $object = new $post_type;
+            $registry->set($post_type, $object);
+
+            // Run setup on new object
+            $object = $registry->get($post_type);
+            $object->run();
         }
 
         $this->writeConfig('post_types', get_post_types(array('_builtin' => false)));

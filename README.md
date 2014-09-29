@@ -106,7 +106,7 @@ The class name should be singular. Our example Articles class would be called Ar
         
     }
 
-Now you can load it in your config array in functions.php:
+**IMPORTANT** You have to explicitly tell the theme to load the custom post type
     
     'post_types' => array('Article'),
 
@@ -117,6 +117,7 @@ Can be set to either "page" or "post".
     
     public $type = 'post'; // or page, defaults to post
     
+
 ### $supports
 An array of features the post type should support. The default list is:
 
@@ -132,6 +133,7 @@ An array of features the post type should support. The default list is:
             'post-formats',
     );
     
+
 ### $meta_boxes
 If the MetaBox Plugin by rilwis is available you can very easily add custom fields to any post type. 
 
@@ -156,6 +158,7 @@ There are no defaults. An example would look like:
             ),
     );
     
+
 ### $taxonomies
 An array of custom taxonomies you wish to create.
 

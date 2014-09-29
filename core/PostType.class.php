@@ -187,17 +187,18 @@ class PostType
      * 
      * @return array
      */
-    public function getAll()
+    public function getAll($params = array())
     {
-        $args = array(
+        $defaults = array(
             'numberposts' => -1,
             'orderby' => 'title',
             'order' => 'ASC',
             'post_type' => $this->name
         );
 
-        $post_array = get_posts($args);
-        return $post_array;
+        $params = array_merge($defaults, $params);
+
+        return get_posts($params);
     }
 
 }

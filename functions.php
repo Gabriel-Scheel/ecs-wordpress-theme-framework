@@ -26,6 +26,7 @@ define('VENDOR_PATH', THEME_PATH . DS . 'vendor');
 // Load required libs
 require_once CORE_PATH . DS . 'helpers.php';
 require_once CORE_PATH . DS . 'Theme.class.php';
+require_once CORE_PATH . DS . 'Registry.class.php';
 require_once CORE_PATH . DS . 'Options.class.php';
 require_once CORE_PATH . DS . 'PostType.class.php';
 require_once CORE_PATH . DS . 'Inflector.class.php';
@@ -103,6 +104,8 @@ $theme->run(array(
 		)
 	)
 ));
+
+#add_action('wp_footer', function(){ global $theme; pr($theme); });
 
 /* End of file functions.php */
 /* Location: ./functions.php */
