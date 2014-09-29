@@ -190,7 +190,7 @@ You can use the custom post type as a data model, or interface, to the post type
 
 To get your custom post type you would request it from the class registry:
 
-    $registry = Registry::getInstance();
+    $registry = \Ecs\WordPress\Registry::getInstance();
     $Article = $registry->get('Article');
 
 Now that you have your Post Type object, you can run whatever methods you have defined in the class. There is a default helper method to retrieve all posts for the current post type. Example:
@@ -202,25 +202,30 @@ That will return ALL posts for the Article post type.
 ## Theme.php
 Located: $theme_dir/core/Theme.php
 
+The theme object is available to you via the class registry. It is preferred to grabt the Theme via the registry, instead of using global variables as is the WordPress way. 
+
+    $registry = \Ecs\WordPress\Registry::getInstance();
+    $Theme = $registry->get('Theme');
+
 ### Methods
 
 #### Theme::config();
 
 Retrieve config value using dot notation. Returns FALSE if key not found. 
 
-    $val = $theme->config('settings.mysetting');
+    $val = $Theme->config('settings.mysetting');
     
 #### Theme::writeConfig();
 
 Write data to the $config array, using dot notation.
 
-    $theme->writeConfig('settings.mysetting', 'myvalue');
+    $Theme->writeConfig('settings.mysetting', 'myvalue');
 
 #### Theme::__();
 
 Convienence wrapper for *__()*. Uses the theme name/id as the domain key for translations. 
 
-    echo $theme->__('my-lang-variable');
+    echo $Theme->__('my-lang-variable');
 
 ## Theme Options
 
@@ -233,7 +238,10 @@ Use the super nice Theme Options Framework. There is an axample options.php incl
 #### pr($mixed)
 A wrapper for print_r, includes pre tags around the output. 
 
+    pr($my_var);
+
 #### debug($mixed)
 Same as pr() but includes some additional information, such as file name and line number where debug was called. 
 
+    debug($my_var);
 
