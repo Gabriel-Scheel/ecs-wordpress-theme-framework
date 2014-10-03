@@ -445,7 +445,7 @@ class Theme
      
         if (!is_wp_error( $wp_theme_error ) || !$wp_theme_error) {
             $data[$data_key] = $data_value;
-            $wp_theme_error = new WP_Error($wp_theme_error_code, $message, $data);
+            $wp_theme_error = new \WP_Error($wp_theme_error_code, $message, $data);
             return $wp_theme_error;
         }
      
