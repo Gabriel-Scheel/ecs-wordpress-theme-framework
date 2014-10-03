@@ -2,7 +2,7 @@
 namespace Ecs\WordPress;
 
 /**
- * Extends Theme
+ * Class Registry 
  *
  * PHP version 5
  *
