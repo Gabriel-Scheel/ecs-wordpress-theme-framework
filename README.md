@@ -88,9 +88,9 @@ As per WordPress's recommendations, all custom post types are prefixed with a sh
 
 The following attributes are available to customize your post type.
 
-Attribute | Information                            | Usage
---------- | -------------------------------------- | -----
-**$type** | Can be set to either "page" or "post". | can be page, post, attachment, revision, nav_menu_item
+Attribute | Information                      | Usage
+--------- | -------------------------------- | -----
+**$type** | Set the core post type, uh, type | can be page, post, attachment, revision, nav_menu_item
 **$supports** | An array of features the post type should support. | [WP Docs](http://codex.wordpress.org/Function_Reference/post_type_supports)
 **$meta_boxes** | An array of metabox fields | Depends on [Rilwis Meta-box Plugin](https://github.com/rilwis/meta-box)
 **$taxonomies** | An array of custom taxonomies to attach to post type | [http://codex.wordpress.org/Taxonomies](Taxonomies)
