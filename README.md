@@ -74,9 +74,11 @@ The class name should be singular. Our example Articles class would be called Ar
 * **File Name** Article.PostType.php
 * **Post Type Identifier** ecs_article
 
+```
     class Article extends Ecs\WordPress\PostType{
         
     }
+```
 
 **IMPORTANT** You have to explicitly tell the theme to load the custom post type
     
