@@ -12,7 +12,6 @@ define('VENDOR_PATH', THEME_PATH . DS . 'vendor');
 require_once CORE_PATH . DS . 'helpers.php';
 require_once CORE_PATH . DS . 'CoreTheme.class.php';
 require_once CORE_PATH . DS . 'Registry.class.php';
-require_once CORE_PATH . DS . 'Options.class.php';
 require_once CORE_PATH . DS . 'PostType.class.php';
 require_once CORE_PATH . DS . 'Inflector.class.php';
 
