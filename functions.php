@@ -15,28 +15,10 @@
  * @link       http://roylindauer.com
  */
 
-define('DS', DIRECTORY_SEPARATOR);
-
-// Define base paths
-define('THEME_PATH', dirname(realpath(__FILE__)));
-define('CORE_PATH', THEME_PATH . DS . 'core');
-define('APP_PATH', THEME_PATH . DS . 'app');
-define('VENDOR_PATH', THEME_PATH . DS . 'vendor');
-
-// Load required libs
-require_once CORE_PATH . DS . 'helpers.php';
-require_once CORE_PATH . DS . 'Theme.class.php';
-require_once CORE_PATH . DS . 'Registry.class.php';
-require_once CORE_PATH . DS . 'Options.class.php';
-require_once CORE_PATH . DS . 'PostType.class.php';
-require_once CORE_PATH . DS . 'Inflector.class.php';
-require_once APP_PATH . DS . 'CustomTheme.php';
-
-// Load required vendors
-require_once VENDOR_PATH . DS . 'plugin-activation' . DS . 'class-tgm-plugin-activation.php';
+require_once 'core/bootstrap.php';
 
 // Setup Theme
-$theme = new Ecs\WordPress\CustomTheme();
+$theme = new Ecs\WordPress\Theme();
 
 $theme->run(array(
 	// Set some defaults
@@ -61,6 +43,15 @@ $theme->run(array(
 			'aside', 
 			'gallery'
 		) 
+	),
+
+	// Custom Image Sizes
+	'image_sizes' => array(
+		'cover_large' => array(
+			'width' => 1920,
+			'height' => 1080,
+			'crop' => false
+		),
 	),
 	
 	// Define theme dependencies

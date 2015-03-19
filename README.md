@@ -2,42 +2,13 @@
 
 A WordPress Theme Development Framework.
 
-## About
-This is an attempt to speed up some of the more tedious aspects of creating an advanced WordPress theme. 
-
-## Features
-* Dynamic custom PostType generation w/MetaBox support
-* Dependency checking (php libs, WP plugins, vendor libs)
-* Snippets, re-usable php functions to extend the core (includes urls.snippet.php as an example)
-* Supports dynamic widget loading
-* Theme Options Framework
-
-## Structure
-/app - _Custom libraries, to extend core_
-
-/app/partials - _template parts, re-usable template blocks_
-
-/app/post_types - _post type models go here_
-
-/app/shortcodes - _shortcode classes go here_
-
-/app/widgets - _widget classes and assets go here_
-
-/app/snippets - _php includes go here_
-
-/core - _core framework_
-
-/assets - _css, img, js, sass, etc._
-
-/vendor - _3rd party plugins, libraries, etc._
-
 ## Getting Started
 
 In functions.php create a new Theme object and pass in a basic configuration array with the theme name/id.
 
 The theme name is used as a key for looking up l10n translation strings, etc.
 
-    $theme = new CustomTheme();
+    $theme = new Theme();
     $theme->run(array('name'=>'my-theme-name'));
     
 
@@ -101,6 +72,7 @@ The class name should be singular. Our example Articles class would be called Ar
 
 **Class Name**: Article
 **File Name**: Article.PostType.php
+**Post Type Identifier**: ecs_article
 
     class Article extends Ecs\WordPress\PostType{
         
@@ -110,73 +82,22 @@ The class name should be singular. Our example Articles class would be called Ar
     
     'post_types' => array('Article'),
 
-That is all you need to do to create a basic custom post type. The following attributes are available to customize your post type:
+That is all you need to do to create a basic custom post type. 
 
-### $type
-Can be set to either "page" or "post".
-    
-    public $type = 'post'; // or page, defaults to post
-    
+As per WordPress's recommendations, all custom post types are prefixed with a short namespace to identify our theme. In the above example, our Article post type identifier within WordPress would be referenced as "ecs_article". 
 
-### $supports
-An array of features the post type should support. The default list is:
+The following attributes are available to customize your post type.
 
-    public $supports = array(
-            'title', 
-            'editor', 
-            'page-attributes',
-            'author',
-            'thumbnail',
-            'custom-fields', 
-            'revisions',
-            'page-attributes',
-            'post-formats',
-    );
-    
-
-### $meta_boxes
-If the MetaBox Plugin by rilwis is available you can very easily add custom fields to any post type. 
-
-There are no defaults. An example would look like:
-
-    public $meta_boxes = array(
-            array(
-                    'id' => 'mb_fields',
-                    'title' => 'Article Data',
-                    'pages' => array('article'),
-                    'context' => 'normal',
-                    'priority' => 'high',
-                    'fields' => array(
-                            array(
-                                    'name' => 'Image',
-                                    'id' => 'article_image',
-                                    'type' => 'plupload_image',
-                                    'clone' => FALSE,
-                                    'max_file_uploads' => 1,
-                            ),
-                    )
-            ),
-    );
-    
-
-### $taxonomies
-An array of custom taxonomies you wish to create.
-
-    public $taxonomies = array(
-            array(
-                    'name' => 'article_categories',
-                    'post_type' => 'article',
-                    'options' => array(
-                        'label' => 'Article Categories',
-                            'rewrite' => 'article_categories',
-                            'hierarchical' => TRUE
-                    ),
-            ),
-    );
+Attribute | Information                            | Usage
+--------- | -------------------------------------- | -----
+**$type** | Can be set to either "page" or "post". | can be page, post, attachment, revision, nav_menu_item
+**$supports** | An array of features the post type should support. | [WP Docs](http://codex.wordpress.org/Function_Reference/post_type_supports)
+**$meta_boxes** | An array of metabox fields | Depends on [Rilwis Meta-box Plugin](https://github.com/rilwis/meta-box)
+**$taxonomies** | An array of custom taxonomies to attach to post type | [http://codex.wordpress.org/Taxonomies](Taxonomies)
 
 ### Overwriting Built In Post Types
 
-Sometimes you will need to modify an existing post type, such as adding custom fields to Pages. To do so you need to override the register method. The steps to modify an existing post type are to first get the post type object, make your changes to the post type, and then save that post object back via register_post_type. If you do not do this you will end up with duplicates of the post type in the menu. 
+Sometimes you will need to modify an existing post type, such as adding custom fields to Pages. To do so you need to override the register method. The steps to modify an existing post type are to first get the post type object, make your changes to the post type, and then save that post object back via register_post_type. If you do not do this you will end up with duplicates of the post type in the admin menu. 
 
     public function register() {
         $post = get_post_type_object('post');
@@ -184,11 +105,11 @@ Sometimes you will need to modify an existing post type, such as adding custom f
         register_post_type(strtolower($this->name), $post);
     }
 
-### Using custom post types as loose models (the M in the MVC design pattern)
+### Using custom post types as models
 
-You can use the custom post type as a data model, or interface, to the post types records, or related records. 
+You can use the custom post type as a data model, or interface, to the post types records, or related records. In fact, that is the idea of encapsulating a custom post type into a class. 
 
-To get your custom post type you would request it from the class registry:
+To use your custom post type you first request it from the class registry:
 
     $registry = \Ecs\WordPress\Registry::getInstance();
     $Article = $registry->get('Article');
@@ -197,39 +118,18 @@ Now that you have your Post Type object, you can run whatever methods you have d
 
     $articles = $Article->getAll();
 
-That will return ALL posts for the Article post type. 
-
 ## Theme.php
 Located: $theme_dir/core/Theme.php
-
-The theme object is available to you via the class registry. It is preferred to grabt the Theme via the registry, instead of using global variables as is the WordPress way. 
+Use the theme in your templates. 
 
     $registry = \Ecs\WordPress\Registry::getInstance();
     $Theme = $registry->get('Theme');
 
-### Methods
-
-#### Theme::config();
-
-Retrieve config value using dot notation. Returns FALSE if key not found. 
-
-    $val = $Theme->config('settings.mysetting');
-    
-#### Theme::writeConfig();
-
-Write data to the $config array, using dot notation.
-
-    $Theme->writeConfig('settings.mysetting', 'myvalue');
-
-#### Theme::__();
-
-Convienence wrapper for *__()*. Uses the theme name/id as the domain key for translations. 
-
-    echo $Theme->__('my-lang-variable');
-
-## Theme Options
-
-Use the super nice Theme Options Framework. There is an axample options.php included in the theme.
+Method | Description | Usage
+------ | ----------- | -----
+config() | Retrieve config value using dot notation. Returns FALSE if key not found. | `$val = $Theme->config('settings.mysetting');`
+writeConfig() | Write data to the $config array, using dot notation. | `$Theme->writeConfig('settings.mysetting', 'myvalue');` 
+__() | Convienence wrapper for gettext method `__()`. Uses the theme name/id as the domain key for translations. | `echo $Theme->__('my-lang-variable');`
 
 ## Debugging
 
@@ -245,3 +145,17 @@ Same as pr() but includes some additional information, such as file name and lin
 
     debug($my_var);
 
+## Directory Structure of core theme files
+
+Path | Purpose
+---- | -------
+/app | _Custom libraries, to extend core_
+/app/partials | _template partials_
+/app/post_types | _post type models go here_
+/app/shortcodes | _shortcode classes go here_
+/app/widgets | _widget classes and assets go here_
+/app/snippets | _php includes go here_
+/core | _core framework_
+/assets | _css, img, js, etc._
+/vendor | _3rd party plugins, libraries, etc._
+    

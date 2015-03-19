@@ -27,7 +27,7 @@ namespace Ecs\WordPress;
  * @license    http://www.apache.org/licenses/LICENSE-2.0.html  Apache License, Version 2.0
  * @link       http://roylindauer.com
  */
-class CustomTheme extends Theme
+class Theme extends CoreTheme
 {
     /**
      * 

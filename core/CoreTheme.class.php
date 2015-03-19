@@ -27,7 +27,7 @@ namespace Ecs\WordPress;
  * @license    http://www.apache.org/licenses/LICENSE-2.0.html  Apache License, Version 2.0
  * @link       http://roylindauer.com
  */
-class Theme
+class CoreTheme
 {
 
     /**
@@ -94,15 +94,14 @@ class Theme
 
         add_action('wp_enqueue_scripts', array(&$this, 'enqueueStylesheets'));
         add_action('wp_enqueue_scripts', array(&$this, 'enqueueScripts'));
-
-        // Setup wp theme features
-        add_action('after_setup_theme', array(&$this, 'registerThemeFeatures'));
         
         // Load custom post types, widgets, etc. 
         add_action('init', array($this, 'loadPostTypes'));
         add_action('widgets_init', array(&$this, 'loadWidgets'));
 
         $this->loadSnippets();
+        $this->registerThemeFeatures();
+        $this->registerImageSizes();
 
     }
 
@@ -353,11 +352,8 @@ class Theme
 
             // Init object and add to registry
             $object = new $post_type;
-            $registry->set($post_type, $object);
-
-            // Run setup on new object
-            $object = $registry->get($post_type);
             $object->run();
+            $registry->set($post_type, $object);
         }
 
         $this->writeConfig('post_types', get_post_types(array('_builtin' => false)));
@@ -483,7 +479,7 @@ class Theme
         }
 
         if ($this->config('debug.enable_debug') === true) {
-            echo '<div class="__theme_errors"><h4>'.$this->__('Theme Errors & Warnings').'</h4><ul>';
+            echo '<div class="error"><h4>'.$this->__('Theme Errors & Warnings').'</h4><ul>';
             echo $output;
             echo '</ul></div>';
         }
@@ -498,8 +494,7 @@ class Theme
     /**
      * Add theme features per user config.
      */
-    public function registerThemeFeatures()
-    {
+    public function registerThemeFeatures() {
         $features = $this->config('theme_features');
 
         if (empty($features)) {
@@ -515,6 +510,52 @@ class Theme
             }
         }
         
+    }
+
+    /**
+     * Add custom image sizes per user config.
+     */
+    public function registerImageSizes() {
+        
+        $image_sizes = $this->config('image_sizes');
+
+        if (empty($image_sizes)) {
+            return;
+        }
+
+        $reserved_names = array(
+            'thumb', 
+            'thumbnail', 
+            'medium', 
+            'large', 
+            'post-thumbnail'
+        );
+
+        foreach ($image_sizes as $name => $size) {
+            
+
+            if (in_array($name, $reserved_names)) {
+                $this->addThemeError('Theme::registerImageSizes() - Ooh, ' . $name . ' is a reserved image size name, you must use something different', 'theme', 'theme');
+                return false;
+            }
+
+            if (!isset($size['width'])) {
+                $this->addThemeError('Theme::registerImageSizes() - Width must be set', 'theme', 'theme');
+                return false;
+            }
+            
+            if (!isset($size['height'])) {
+                $this->addThemeError('Theme::registerImageSizes() - Height must be set', 'theme', 'theme');
+                return false;
+            }
+            
+            if (!isset($size['crop'])) {
+                $this->addThemeError('Theme::registerImageSizes() - Crop must be set', 'theme', 'theme');
+                return false;
+            }
+
+            add_image_size($name, $size['width'], $size['height'], $size['crop']);
+        }
     }
 
 }

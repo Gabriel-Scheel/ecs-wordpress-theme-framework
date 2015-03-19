@@ -30,6 +30,13 @@ class PostType
 {
 
     /**
+     * Prefix to namespace post type within WP
+     * 
+     * @var string $name
+     */
+    public $prefix = 'ecs';
+
+    /**
      * Name of this post type.
      * 
      * @var string $name
@@ -94,22 +101,24 @@ class PostType
     public function __construct()
     {
         $this->name = get_class($this);
+
+        $Inflector = new \Inflector();
         
         // Convention over configuration!
         $this->labels = array(
-            'name' =>                   \Inflector::humanize(\Inflector::pluralize($this->name)),
-            'singular_name' =>          \Inflector::humanize('post'),
-            'add_new' =>                sprintf(__('Add New %s'), \Inflector::humanize($this->name)),
-            'add_new_item' =>           sprintf(__('Add New %s'), \Inflector::humanize($this->name)),
-            'edit_item' =>              sprintf(__('Edit %s'), \Inflector::humanize($this->name)),
-            'new_item' =>               sprintf(__('New %s'), \Inflector::humanize($this->name)),
-            'all_items' =>              sprintf(__('All %s'), \Inflector::humanize(\Inflector::pluralize($this->name))),
-            'view_item' =>              sprintf(__('View %s'), \Inflector::humanize($this->name)),
-            'search_items' =>           sprintf(__('Search %s'), \Inflector::humanize(\Inflector::pluralize($this->name))),
-            'not_found' =>              sprintf(__('No %s found'), \Inflector::humanize(\Inflector::pluralize($this->name))),
-            'not_found_in_trash' =>     sprintf(__('No %s found in trash'), \Inflector::humanize(\Inflector::pluralize($this->name))),
+            'name' =>                   $Inflector->humanize($Inflector->pluralize($this->name)),
+            'singular_name' =>          $Inflector->humanize('post'),
+            'add_new' =>                sprintf(__('Add New %s'), $Inflector->humanize($this->name)),
+            'add_new_item' =>           sprintf(__('Add New %s'), $Inflector->humanize($this->name)),
+            'edit_item' =>              sprintf(__('Edit %s'), $Inflector->humanize($this->name)),
+            'new_item' =>               sprintf(__('New %s'), $Inflector->humanize($this->name)),
+            'all_items' =>              sprintf(__('All %s'), $Inflector->humanize($Inflector->pluralize($this->name))),
+            'view_item' =>              sprintf(__('View %s'), $Inflector->humanize($this->name)),
+            'search_items' =>           sprintf(__('Search %s'), $Inflector->humanize($Inflector->pluralize($this->name))),
+            'not_found' =>              sprintf(__('No %s found'), $Inflector->humanize($Inflector->pluralize($this->name))),
+            'not_found_in_trash' =>     sprintf(__('No %s found in trash'), $Inflector->humanize($Inflector->pluralize($this->name))),
             'parent_item_colon' =>      '',
-            'menu_name' =>              \Inflector::humanize(\Inflector::pluralize($this->name))
+            'menu_name' =>              $Inflector->humanize($Inflector->pluralize($this->name))
         );
         
         // Post type defaults
@@ -131,6 +140,9 @@ class PostType
         );
     }
     
+    /**
+     * 
+     */
     public function run()
     {
         $this->register();
@@ -143,7 +155,11 @@ class PostType
      */
     public function register()
     {
-        register_post_type(strtolower($this->name), $this->getArgs());
+        if ($this->prefix == 'wp') {
+            wp_die('You cannot use wp as the post type namespace identifier');
+        }
+
+        register_post_type($this->prefix . '_' . strtolower($this->name), $this->getArgs());
     }
 
     /**
@@ -151,6 +167,10 @@ class PostType
      */
     public function registerTaxonomies()
     {
+        if (empty($this->taxonomies)) {
+            return;
+        }
+
         foreach ($this->taxonomies as $tax) {
             register_taxonomy($tax['name'], $tax['post_type'], $tax['options']);
             register_taxonomy_for_object_type($tax['name'], $tax['post_type']);
@@ -164,6 +184,10 @@ class PostType
     public function registerMetaBoxes()
     {
         if (!class_exists('RW_Meta_Box')) {
+            return;
+        }
+
+        if (empty($this->meta_boxes)) {
             return;
         }
 
