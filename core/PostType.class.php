@@ -75,8 +75,7 @@ class PostType
         'editor', 
         'page-attributes',
         'author',
-        'thumbnail',
-        'custom-fields', 
+        'thumbnail', 
         'revisions',
         'page-attributes',
         'post-formats',
@@ -230,8 +229,6 @@ class PostType
                 'show_tagcloud' => true,
                 'show_admin_column' => false,
                 'hierarchical' => false,
-                'update_count_callback' => true,
-                'meta_box_cb' => true,
                 'query_var' => $name,
                 'rewrite' => array(
                     'slug' => $name,
