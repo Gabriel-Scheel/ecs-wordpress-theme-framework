@@ -355,8 +355,6 @@ class CoreTheme
             $object->run();
             $registry->set($post_type, $object);
         }
-
-        $this->writeConfig('post_types', get_post_types(array('_builtin' => false)));
     }
 
     ////////////////////////////////////////////////////////////////////////////////

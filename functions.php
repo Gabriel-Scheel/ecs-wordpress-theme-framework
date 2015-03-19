@@ -100,7 +100,5 @@ $theme->run(array(
 $registry = \Ecs\WordPress\Registry::getInstance();
 $registry->set('Theme', $theme);
 
-#add_action('wp_footer', function(){ global $theme; pr($theme); });
-
 /* End of file functions.php */
 /* Location: ./functions.php */

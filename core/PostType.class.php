@@ -29,6 +29,14 @@ namespace Ecs\WordPress;
 class PostType
 {
 
+    public $reserved_posttypes = array(
+        'post', 
+        'page',
+        'attachment',
+        'revision',
+        'nav_menu_item'
+    );
+
     /**
      * Prefix to namespace post type within WP
      * 
@@ -42,6 +50,13 @@ class PostType
      * @var string $name
      */
     public $name = '';
+
+    /**
+     * Namespace prefix for this post type.
+     * 
+     * @var string $name
+     */
+    public $prefixed_name = '';
     
     /**
      * The type of post type. Or the post types type...
@@ -100,7 +115,7 @@ class PostType
      */
     public function __construct()
     {
-        $this->name = get_class($this);
+        $this->name = strtolower(get_class($this));
 
         $Inflector = new \Inflector();
         
@@ -155,11 +170,18 @@ class PostType
      */
     public function register()
     {
-        if ($this->prefix == 'wp') {
+        if ($this->prefix === 'wp') {
             wp_die('You cannot use wp as the post type namespace identifier');
         }
 
-        register_post_type($this->prefix . '_' . strtolower($this->name), $this->getArgs());
+        // Name space our post types. Except for WP post types, let's not touch those.. 
+        if (!in_array($this->name, $this->reserved_posttypes)) {
+            $this->prefixed_name = $this->prefix . '_' . $this->name;
+        } else {
+            $this->prefixed_name = $this->name;
+        }
+
+        register_post_type($this->prefixed_name, $this->getArgs());
     }
 
     /**
@@ -171,9 +193,12 @@ class PostType
             return;
         }
 
-        foreach ($this->taxonomies as $tax) {
-            register_taxonomy($tax['name'], $tax['post_type'], $tax['options']);
-            register_taxonomy_for_object_type($tax['name'], $tax['post_type']);
+        if (!is_array($this->taxonomies)) {
+            return;
+        }
+
+        foreach ($this->taxonomies as $name => $args) {
+            register_taxonomy($name, $this->prefixed_name, $args);
         }
     }
 
