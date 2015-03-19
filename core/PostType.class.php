@@ -117,23 +117,23 @@ class PostType
     {
         $this->name = strtolower(get_class($this));
 
-        $Inflector = new \Inflector();
+        $this->Inflector = new \Inflector();
         
         // Convention over configuration!
         $this->labels = array(
-            'name' =>                   $Inflector->humanize($Inflector->pluralize($this->name)),
-            'singular_name' =>          $Inflector->humanize('post'),
-            'add_new' =>                sprintf(__('Add New %s'), $Inflector->humanize($this->name)),
-            'add_new_item' =>           sprintf(__('Add New %s'), $Inflector->humanize($this->name)),
-            'edit_item' =>              sprintf(__('Edit %s'), $Inflector->humanize($this->name)),
-            'new_item' =>               sprintf(__('New %s'), $Inflector->humanize($this->name)),
-            'all_items' =>              sprintf(__('All %s'), $Inflector->humanize($Inflector->pluralize($this->name))),
-            'view_item' =>              sprintf(__('View %s'), $Inflector->humanize($this->name)),
-            'search_items' =>           sprintf(__('Search %s'), $Inflector->humanize($Inflector->pluralize($this->name))),
-            'not_found' =>              sprintf(__('No %s found'), $Inflector->humanize($Inflector->pluralize($this->name))),
-            'not_found_in_trash' =>     sprintf(__('No %s found in trash'), $Inflector->humanize($Inflector->pluralize($this->name))),
+            'name' =>                   $this->Inflector->humanize($this->Inflector->pluralize($this->name)),
+            'singular_name' =>          $this->Inflector->humanize($this->Inflector->singularize($this->name)),
+            'add_new' =>                sprintf(__('Add New %s'), $this->Inflector->humanize($this->name)),
+            'add_new_item' =>           sprintf(__('Add New %s'), $this->Inflector->humanize($this->name)),
+            'edit_item' =>              sprintf(__('Edit %s'), $this->Inflector->humanize($this->name)),
+            'new_item' =>               sprintf(__('New %s'), $this->Inflector->humanize($this->name)),
+            'all_items' =>              sprintf(__('All %s'), $this->Inflector->humanize($this->Inflector->pluralize($this->name))),
+            'view_item' =>              sprintf(__('View %s'), $this->Inflector->humanize($this->name)),
+            'search_items' =>           sprintf(__('Search %s'), $this->Inflector->humanize($this->Inflector->pluralize($this->name))),
+            'not_found' =>              sprintf(__('No %s found'), $this->Inflector->humanize($this->Inflector->pluralize($this->name))),
+            'not_found_in_trash' =>     sprintf(__('No %s found in trash'), $this->Inflector->humanize($this->Inflector->pluralize($this->name))),
             'parent_item_colon' =>      '',
-            'menu_name' =>              $Inflector->humanize($Inflector->pluralize($this->name))
+            'menu_name' =>              $this->Inflector->humanize($this->Inflector->pluralize($this->name))
         );
         
         // Post type defaults
@@ -198,6 +198,49 @@ class PostType
         }
 
         foreach ($this->taxonomies as $name => $args) {
+            
+            if (!is_array($args)) {
+                $args = array();
+            }
+
+            $args = array_merge(array(
+                'label' => $this->Inflector->humanize($this->Inflector->pluralize($name)),
+                'labels' => array(
+                    'name'              => $this->Inflector->humanize($this->Inflector->pluralize($name)),
+                    'singular_name'     => $this->Inflector->humanize($this->Inflector->singularize($name)),
+                    'menu_name'         => $this->Inflector->humanize($this->Inflector->pluralize($name)),
+                    'all_items'         => sprintf(__('All %s'), $this->Inflector->humanize($this->Inflector->pluralize($name))),
+                    'edit_item'         => sprintf(__('Edit %s'), $this->Inflector->humanize($name)),
+                    'view_item'         => sprintf(__('View %s'), $this->Inflector->humanize($name)),
+                    'update_item'       => sprintf(__('Update %s'), $this->Inflector->humanize($name)),
+                    'add_new_item'      => sprintf(__('Add New %s'), $this->Inflector->humanize($name)),
+                    'new_item_name'     => sprintf(__('New %s Name'), $this->Inflector->humanize($name)),
+                    'parent_item'       => sprintf(__('Parent %s'), $this->Inflector->humanize($this->Inflector->pluralize($name))),
+                    'parent_item_colon' => sprintf(__('Parent %s:'), $this->Inflector->humanize($this->Inflector->pluralize($name))),
+                    'search_items'      => sprintf(__('Search %s'), $this->Inflector->humanize($this->Inflector->pluralize($name))),
+                    'popular_items'     => sprintf(__('Popular %s'), $this->Inflector->humanize($this->Inflector->pluralize($name))),
+                    'separate_items_with_commas' => sprintf(__('Separate %s with commas'), $this->Inflector->humanize($this->Inflector->pluralize($name))),
+                    'add_or_remove_items' => sprintf(__('Add and Remove %s'), $this->Inflector->humanize($this->Inflector->pluralize($name))),
+                    'choose_from_most_used' => sprintf(__('Choose from the most used %s'), $this->Inflector->humanize($this->Inflector->pluralize($name))),
+                    'not_found' => sprintf(__('No %s found'), $this->Inflector->humanize($this->Inflector->pluralize($name))),
+                ),
+                'public' => true,
+                'show_ui' => true,
+                'show_in_nav_menus' => true,
+                'show_tagcloud' => true,
+                'show_admin_column' => false,
+                'hierarchical' => false,
+                'update_count_callback' => true,
+                'meta_box_cb' => true,
+                'query_var' => $name,
+                'rewrite' => array(
+                    'slug' => $name,
+                    'with_front' => true,
+                    'hierarchical' => false,
+                    'ep_mask' => EP_NONE
+                ),
+            ), $args);
+
             register_taxonomy($name, $this->prefixed_name, $args);
         }
     }
