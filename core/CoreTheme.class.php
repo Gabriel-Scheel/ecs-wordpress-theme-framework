@@ -96,9 +96,9 @@ class CoreTheme
         add_action('wp_enqueue_scripts', array(&$this, 'enqueueScripts'));
         
         // Load custom post types, widgets, etc. 
-        add_action('init', array($this, 'loadPostTypes'));
         add_action('widgets_init', array(&$this, 'loadWidgets'));
 
+        $this->loadPostTypes();
         $this->loadSnippets();
         $this->registerThemeFeatures();
         $this->registerImageSizes();

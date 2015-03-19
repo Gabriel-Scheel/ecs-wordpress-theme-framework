@@ -159,9 +159,9 @@ class PostType
      */
     public function run()
     {
-        $this->register();
-        $this->registerTaxonomies();
-        $this->registerMetaBoxes();
+        add_action('init', array($this, 'register'), 100);
+        add_action('init', array($this, 'registerTaxonomies'), 100);
+        add_action('admin_init', array($this, 'registerMetaBoxes'), 100);
     }
 
     /**
