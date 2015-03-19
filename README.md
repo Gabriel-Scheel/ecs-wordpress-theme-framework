@@ -70,9 +70,9 @@ The Theme uses the following convention for creating and naming post types. If y
 
 The class name should be singular. Our example Articles class would be called Article. The class file name should be singular as well. Article.PostType.php instead of Articles.PostType.php
 
-**Class Name**: Article
-**File Name**: Article.PostType.php
-**Post Type Identifier**: ecs_article
+**Class Name** Article
+**File Name** Article.PostType.php
+**Post Type Identifier** ecs_article
 
     class Article extends Ecs\WordPress\PostType{
         
