@@ -180,7 +180,7 @@ class PostType
             $this->prefixed_name = $this->name;
         }
 
-        register_post_type($this->prefixed_name, $this->getArgs());
+        register_post_type($this->prefixed_name, $this->args);
     }
 
     /**
@@ -261,15 +261,6 @@ class PostType
                 new \RW_Meta_Box($meta_box);
             }
         }
-    }
-
-    /**
-     * 
-     * @return string
-     */
-    public function getArgs()
-    {
-        return $this->args;
     }
 
     /**
