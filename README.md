@@ -17,18 +17,31 @@ The theme name is used as a key for looking up l10n translation strings, etc.
     require_once LIB_PATH . '/CustomTheme.php';
     $theme = new CustomTheme();
     $theme->run(array(
-
+    
         'name' => 'my-theme-name',
     
         // Load post types
-        'post_types' => array(),
+        'post_types' => array('Article', 'Cover', 'Person'),
         
         // Load widgets
         'widgets' => array(),
         
-        // Configure debugging
-        'debug' => array(
-            'enable_debug' => TRUE,
+        // Them Features
+        'theme_features' => array(
+            'post-thumbnails',
+            'post-formats' => array(
+                'aside', 
+                'gallery'
+            ) 
+        ),
+        
+        // Custom Image Sizes
+        'image_sizes' => array(
+            'cover_large' => array(
+                'width' => 1920,
+                'height' => 1080,
+                'crop' => false
+            ),
         ),
         
         // Define theme dependencies
