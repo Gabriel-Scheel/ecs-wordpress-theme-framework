@@ -21,7 +21,7 @@ class Theme
      * consider the following config array: array('multi'=>array('dim'=>array('option'=>'val')))
      * can access option by using:
      * eg: $this->config('multi.dim.option').
-     * 
+     *
      * @var array
      */
     private $config = array(
@@ -31,15 +31,15 @@ class Theme
 
     /**
      * WP Theme Information.
-     * 
-     * @var WP_Theme 
+     *
+     * @var WP_Theme
      */
     private $theme_information;
     
     /**
      * Collection of post type objects.
-     * 
-     * @var array $post_types collection of post type objects 
+     *
+     * @var array $post_types collection of post type objects
      */
     public $post_types = array();
 
@@ -54,17 +54,17 @@ class Theme
 
     /**
      * Setup.
-     * 
+     *
      * @param array $config
      * @todo Develop automatic menu loading and registering of image sizes.
      */
-    public function run($config=array())
+    public function run($config = array())
     {
         
         $this->config = array_merge($this->config, $config);
         $this->writeConfig('version', $this->theme_information->Version);
         
-        // Load custom post types, widgets, etc. 
+        // Load custom post types, widgets, etc.
         add_action('init', array(&$this, 'loadPostTypes'));
         add_action('init', array(&$this, 'registerTaxonomies'));
         add_action('init', array(&$this, 'loadShortcodes'));
@@ -76,7 +76,7 @@ class Theme
         add_action('admin_notices', array(&$this, 'dependencies'));
 
         // Require plugins
-        add_action('tgmpa_register',array(&$this, 'registerRequiredPlugins'));
+        add_action('tgmpa_register', array(&$this, 'registerRequiredPlugins'));
 
         // Load assets
         add_action('wp_enqueue_scripts', array(&$this, 'registerStylesheets'));
@@ -111,7 +111,7 @@ class Theme
     /**
      * @param string  language string to return
      */
-    public function __($str='')
+    public function lang($str = '')
     {
         return __($str, $this->config('name'));
     }
@@ -123,8 +123,8 @@ class Theme
     ////////////////////////////////////////////////////////////////////////////////
     
     /**
-     * Get a config value 
-     * 
+     * Get a config value
+     *
      * @param type $index
      * @return type
      */
@@ -135,16 +135,16 @@ class Theme
     }
 
     /**
-     * 
+     *
      */
-    public function writeConfig($index, $val='')
+    public function writeConfig($index, $val = '')
     {
         self::setConfig($index, $val);
     }
     
     /**
      * Handle the dot notation to set a config value to the config array
-     * 
+     *
      * @param type $index
      * @param type $value
      * @return type
@@ -160,7 +160,6 @@ class Theme
                 $this->config[$index] = $val;
             } else {
                 foreach ($keys as $key) {
-
                     if (!isset($this->config[$key])) {
                         $link[$key] = array();
                     }
@@ -175,7 +174,7 @@ class Theme
     
     /**
      * Handle the dot notation to get a config value from the config array
-     * 
+     *
      * @param type $index
      * @param type $value
      * @return type
@@ -194,9 +193,9 @@ class Theme
     }
 
     ////////////////////////////////////////////////////////////////////////////////
-    // 
+    //
     // Enqueue and Load CSS/JS
-    // 
+    //
     ////////////////////////////////////////////////////////////////////////////////
 
     /**
@@ -279,28 +278,28 @@ class Theme
             'is_automatic' => false,                   // Automatically activate plugins after installation or not.
             'message'      => '',                      // Message to output right before the plugins table.
             'strings'      => array(
-                'page_title'                      => __( 'Install Required Plugins', 'tgmpa' ),
-                'menu_title'                      => __( 'Install Plugins', 'tgmpa' ),
-                'installing'                      => __( 'Installing Plugin: %s', 'tgmpa' ), // %s = plugin name.
-                'oops'                            => __( 'Something went wrong with the plugin API.', 'tgmpa' ),
-                'notice_can_install_required'     => _n_noop( 'This theme requires the following plugin: %1$s.', 'This theme requires the following plugins: %1$s.' ), // %1$s = plugin name(s).
-                'notice_can_install_recommended'  => _n_noop( 'This theme recommends the following plugin: %1$s.', 'This theme recommends the following plugins: %1$s.' ), // %1$s = plugin name(s).
-                'notice_cannot_install'           => _n_noop( 'Sorry, but you do not have the correct permissions to install the %s plugin. Contact the administrator of this site for help on getting the plugin installed.', 'Sorry, but you do not have the correct permissions to install the %s plugins. Contact the administrator of this site for help on getting the plugins installed.' ), // %1$s = plugin name(s).
-                'notice_can_activate_required'    => _n_noop( 'The following required plugin is currently inactive: %1$s.', 'The following required plugins are currently inactive: %1$s.' ), // %1$s = plugin name(s).
-                'notice_can_activate_recommended' => _n_noop( 'The following recommended plugin is currently inactive: %1$s.', 'The following recommended plugins are currently inactive: %1$s.' ), // %1$s = plugin name(s).
-                'notice_cannot_activate'          => _n_noop( 'Sorry, but you do not have the correct permissions to activate the %s plugin. Contact the administrator of this site for help on getting the plugin activated.', 'Sorry, but you do not have the correct permissions to activate the %s plugins. Contact the administrator of this site for help on getting the plugins activated.' ), // %1$s = plugin name(s).
-                'notice_ask_to_update'            => _n_noop( 'The following plugin needs to be updated to its latest version to ensure maximum compatibility with this theme: %1$s.', 'The following plugins need to be updated to their latest version to ensure maximum compatibility with this theme: %1$s.' ), // %1$s = plugin name(s).
-                'notice_cannot_update'            => _n_noop( 'Sorry, but you do not have the correct permissions to update the %s plugin. Contact the administrator of this site for help on getting the plugin updated.', 'Sorry, but you do not have the correct permissions to update the %s plugins. Contact the administrator of this site for help on getting the plugins updated.' ), // %1$s = plugin name(s).
-                'install_link'                    => _n_noop( 'Begin installing plugin', 'Begin installing plugins' ),
-                'activate_link'                   => _n_noop( 'Begin activating plugin', 'Begin activating plugins' ),
-                'return'                          => __( 'Return to Required Plugins Installer', 'tgmpa' ),
-                'plugin_activated'                => __( 'Plugin activated successfully.', 'tgmpa' ),
-                'complete'                        => __( 'All plugins installed and activated successfully. %s', 'tgmpa' ), // %s = dashboard link.
+                'page_title'                      => __('Install Required Plugins', 'tgmpa'),
+                'menu_title'                      => __('Install Plugins', 'tgmpa'),
+                'installing'                      => __('Installing Plugin: %s', 'tgmpa'), // %s = plugin name.
+                'oops'                            => __('Something went wrong with the plugin API.', 'tgmpa'),
+                'notice_can_install_required'     => _n_noop('This theme requires the following plugin: %1$s.', 'This theme requires the following plugins: %1$s.'), // %1$s = plugin name(s).
+                'notice_can_install_recommended'  => _n_noop('This theme recommends the following plugin: %1$s.', 'This theme recommends the following plugins: %1$s.'), // %1$s = plugin name(s).
+                'notice_cannot_install'           => _n_noop('Sorry, but you do not have the correct permissions to install the %s plugin. Contact the administrator of this site for help on getting the plugin installed.', 'Sorry, but you do not have the correct permissions to install the %s plugins. Contact the administrator of this site for help on getting the plugins installed.'), // %1$s = plugin name(s).
+                'notice_can_activate_required'    => _n_noop('The following required plugin is currently inactive: %1$s.', 'The following required plugins are currently inactive: %1$s.'), // %1$s = plugin name(s).
+                'notice_can_activate_recommended' => _n_noop('The following recommended plugin is currently inactive: %1$s.', 'The following recommended plugins are currently inactive: %1$s.'), // %1$s = plugin name(s).
+                'notice_cannot_activate'          => _n_noop('Sorry, but you do not have the correct permissions to activate the %s plugin. Contact the administrator of this site for help on getting the plugin activated.', 'Sorry, but you do not have the correct permissions to activate the %s plugins. Contact the administrator of this site for help on getting the plugins activated.'), // %1$s = plugin name(s).
+                'notice_ask_to_update'            => _n_noop('The following plugin needs to be updated to its latest version to ensure maximum compatibility with this theme: %1$s.', 'The following plugins need to be updated to their latest version to ensure maximum compatibility with this theme: %1$s.'), // %1$s = plugin name(s).
+                'notice_cannot_update'            => _n_noop('Sorry, but you do not have the correct permissions to update the %s plugin. Contact the administrator of this site for help on getting the plugin updated.', 'Sorry, but you do not have the correct permissions to update the %s plugins. Contact the administrator of this site for help on getting the plugins updated.'), // %1$s = plugin name(s).
+                'install_link'                    => _n_noop('Begin installing plugin', 'Begin installing plugins'),
+                'activate_link'                   => _n_noop('Begin activating plugin', 'Begin activating plugins'),
+                'return'                          => __('Return to Required Plugins Installer', 'tgmpa'),
+                'plugin_activated'                => __('Plugin activated successfully.', 'tgmpa'),
+                'complete'                        => __('All plugins installed and activated successfully. %s', 'tgmpa'), // %s = dashboard link.
                 'nag_type'                        => 'updated' // Determines admin notice type - can only be 'updated', 'update-nag' or 'error'.
             )
         );
 
-        tgmpa( $plugins, $config );
+        tgmpa($plugins, $config);
     }
 
     /**
@@ -366,10 +365,10 @@ class Theme
 
     /**
      * Adds theme specific messages to the global theme WP_Error object.
-     * 
+     *
      * Takes the theme name as $code for the WP_Error object.
      * Merges old $data and new $data arrays @uses wp_parse_args().
-     * 
+     *
      * @param (string) $message
      * @param (mixed) $data_key
      * @param (mixed) $data_value
@@ -381,11 +380,11 @@ class Theme
      
         if (!isset( $wp_theme_error_code)) {
             $theme_data = wp_get_theme();
-            $name = str_replace( ' ', '', strtolower($theme_data['Name']));
+            $name = str_replace(' ', '', strtolower($theme_data['Name']));
             $wp_theme_error_code = preg_replace("/[^a-zA-Z0-9\s]/", '', $name);
         }
      
-        if (!is_wp_error( $wp_theme_error ) || !$wp_theme_error) {
+        if (!is_wp_error($wp_theme_error) || !$wp_theme_error) {
             $data[$data_key] = $data_value;
             $wp_theme_error = new \WP_Error($wp_theme_error_code, $message, $data);
             return $wp_theme_error;
@@ -402,14 +401,14 @@ class Theme
      
     /**
      * Prints the error messages added to the global theme specific WP_Error object
-     * 
+     *
      * Only displays for users that have 'manage_options' capability,
      * needs WP_DEBUG & WP_DEBUG_DISPLAY constants set to true.
      * Doesn't output anything if there's no error object present.
-     * 
+     *
      * Adds the output to the 'shutdown' hook to render after the theme viewport is output.
-     * 
-     * @return 
+     *
+     * @return
      */
     public function printThemeErrors()
     {
@@ -449,8 +448,7 @@ class Theme
         foreach ($features as $k => $v) {
             if (is_array($v)) {
                 add_theme_support($k, $v);
-            }
-            else {
+            } else {
                 add_theme_support($v);
             }
         }
@@ -533,16 +531,15 @@ class Theme
 
     /**
      * Simple interface for executing ajax requests
-     * 
+     *
      * Usage: /wp-admin/admin-ajax.php?action=ecs_ajax&c=CLASS&m=METHOD
      * Ajax methods should be named - AjaxMethod, and should be called in your url like: m=method
-     * eg: to call the ajax method doThing in our Test class: 
+     * eg: to call the ajax method doThing in our Test class:
      * the method should be named ajaxDoThing, and our url should call it like: m=doThing
      */
     public function executeAjax()
     {
         try {
-
             // Make sure we have a class and a method to execute
             if (!isset($_GET['c']) && !isset($_GET['m'])) {
                 throw new \Exception('Invalid Ajax request');
@@ -564,16 +561,15 @@ class Theme
 
             $result = $Obj->$m();
 
-            ecs_json_response($result);
+            \Ecs\Helpers\json_response($result);
 
         } catch (\Exception $e) {
-            ecs_json_response(array('error' => $e->getMessage()));
+            \Ecs\Helpers\json_response(array('error' => $e->getMessage()));
         }
 
         // Make sure this thing dies so it never echoes back that damn zero.
         die();
     }
-
 }
 
 /* End of file Theme.class.php */

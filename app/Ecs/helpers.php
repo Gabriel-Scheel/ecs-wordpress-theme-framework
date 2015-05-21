@@ -1,4 +1,6 @@
 <?php
+namespace Ecs\Helpers;
+
 /**
  * Misc. helper functions for our Theme.
  *
@@ -17,32 +19,33 @@
  *
  * This code allows the theme to work without errors if the Options Framework plugin has been disabled.
  */
-if ( !function_exists( 'of_get_option' ) ) {
-function of_get_option($name, $default = false) {
-    
-    $optionsframework_settings = get_option('optionsframework');
-    
-    // Gets the unique option id
-    $option_name = $optionsframework_settings['id'];
-    
-    if ( get_option($option_name) ) {
-        $options = get_option($option_name);
-    }
+if (!function_exists('of_get_option')) {
+    function of_get_option($name, $default = false)
+    {
         
-    if ( isset($options[$name]) ) {
-        return $options[$name];
-    } else {
-        return $default;
+        $optionsframework_settings = get_option('optionsframework');
+        
+        // Gets the unique option id
+        $option_name = $optionsframework_settings['id'];
+        
+        if (get_option($option_name)) {
+            $options = get_option($option_name);
+        }
+            
+        if (isset($options[$name])) {
+            return $options[$name];
+        } else {
+            return $default;
+        }
     }
-}
 }
 
 /**
  * Retrieve object from class registry
- * 
+ *
  * @param mixed $object
  */
-function ecs_get_instance($name)
+function get_instance($name)
 {
     $registry = Ecs\Core\Registry::getInstance();
     return $registry->get($name);
@@ -51,7 +54,7 @@ function ecs_get_instance($name)
 /**
  * Wrapper function for registering an object to the class registry
  */
-function ecs_register_object($name, $object)
+function register_object($name, $object)
 {
     $registry = Ecs\Core\Registry::getInstance();
     $registry->set($name, $object);
@@ -59,12 +62,11 @@ function ecs_register_object($name, $object)
 
 /**
  * shorthand pretty version of print_r
- * 
+ *
  * @param mixed $var
  */
-if (!function_exists('pr'))
-{
-    function pr($var=NULL)
+if (!function_exists('pr')) {
+    function pr($var = null)
     {
         echo '<pre>';
         print_r($var);
@@ -74,12 +76,11 @@ if (!function_exists('pr'))
 
 /**
  * debug
- * 
+ *
  * @param mixed $var
  */
-if (!function_exists('debug'))
-{
-    function debug($var=NULL)
+if (!function_exists('debug')) {
+    function debug($var = null)
     {
         $backtrace = debug_backtrace();
         $file = '.'.str_replace($_SERVER['DOCUMENT_ROOT'], '', $backtrace[0]['file']);
@@ -96,7 +97,7 @@ if (!function_exists('debug'))
  * @param string $page_title
  * @return string
  */
-function ecs_page_url($page_title = '')
+function page_url($page_title = '')
 {
     return get_permalink(get_page_by_title($page_title));
 }
@@ -108,7 +109,7 @@ function ecs_page_url($page_title = '')
  * @param string $type
  * @return string
  */
-function ecs_page_url_by_slug($page_slug = '', $type = 'page')
+function page_url_by_slug($page_slug = '', $type = 'page')
 {
     global $wpdb;
 
@@ -119,7 +120,7 @@ function ecs_page_url_by_slug($page_slug = '', $type = 'page')
 /**
  * Render a date "properly"
  */
-function ecs_date($format = 'Y-m-d H:i:s', $timestamp = false)
+function date($format = 'Y-m-d H:i:s', $timestamp = false)
 {
     // Set correct publish date
     $dt = new \DateTime('now', new \DateTimeZone(ECS_TIMEZONE));
@@ -132,16 +133,16 @@ function ecs_date($format = 'Y-m-d H:i:s', $timestamp = false)
 /**
  *
  */
-function ecs_lang($str = '')
+function __($str = '')
 {
-    $Theme = ecs_get_instance('Theme');
+    $Theme = \Ecs\Helpers\get_instance('Theme');
     return $Theme->__($str);
 }
 
 /**
  *
  */
-function ecs_render_partial($partial, $data = array())
+function render_partial($partial, $data = array())
 {
     global $wp_query;
     $file = 'app/partials' . DS . $partial . '.php';
@@ -152,7 +153,7 @@ function ecs_render_partial($partial, $data = array())
 /**
  *
  */
-function ecs_json_response($content = '')
+function json_response($content = '')
 {
     if (!empty($content)) {
         header('Content-type: application/json');

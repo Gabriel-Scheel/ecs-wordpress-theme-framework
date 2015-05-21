@@ -11,8 +11,7 @@
  * @link       http://roylindauer.com
  */
 
-if (is_admin() && class_exists('RW_Meta_Box'))
-{
+if (is_admin() && class_exists('RW_Meta_Box')) {
     $metaboxes = array();
 
     // Cover Metaboxes
@@ -25,10 +24,10 @@ if (is_admin() && class_exists('RW_Meta_Box'))
         'fields' => array(
             array(
                 'name' => 'Cover Image',
-                'description' => ecs_lang('Primary cover image, should be WxH'),
+                'description' => \Ecs\Helpers\lang('Primary cover image, should be WxH'),
                 'id' => 'article_image',
                 'type' => 'plupload_image',
-                'clone' => FALSE,
+                'clone' => false,
                 'max_file_uploads' => 1,
             ),
         )

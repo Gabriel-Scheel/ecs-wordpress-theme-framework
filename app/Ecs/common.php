@@ -24,8 +24,7 @@ require_once 'helpers.php';
 require_once VENDOR_PATH . DS . 'plugin-activation' . DS . 'class-tgm-plugin-activation.php';
 
 // Setup Autoloader
-spl_autoload_register(function($className)
-{
+spl_autoload_register(function ($className) {
     $namespace = str_replace("\\", "/", __NAMESPACE__);
     $className = str_replace("\\", "/", $className);
     $class = APP_PATH . '/' . (empty($namespace) ? "" : $namespace . "/") . "{$className}.class.php";

@@ -16,37 +16,37 @@ class PostType
 
     /**
      * ID of this post type. aka the all lowercase no spaces version of $name
-     * 
+     *
      * @var string $name
      */
     public $id = '';
 
     /**
      * Name of this post type.
-     * 
+     *
      * @var string $name
      */
     public $name = '';
     
     /**
      * The type of post type. Or the post types type...
-     * 
+     *
      * @var string $post
      */
     public $type = 'post';
     
     /**
      * Post type support features.
-     * 
+     *
      * @var array $supports
      */
     public $supports = array(
-        'title', 
-        'editor', 
+        'title',
+        'editor',
         'page-attributes',
         'author',
         'thumbnail',
-        'custom-fields', 
+        'custom-fields',
         'revisions',
         'page-attributes',
         'post-formats',
@@ -54,7 +54,7 @@ class PostType
 
     /**
      * Default args.
-     * 
+     *
      * @var array $args
      */
     public $args = array();
@@ -67,7 +67,7 @@ class PostType
     public $labels = array();
 
     /**
-     * 
+     *
      */
     public function __construct($name, $params = array())
     {
@@ -125,7 +125,6 @@ class PostType
 
         register_post_type($this->id, $this->args);
     }
-
 }
 
 /* End of file PostType.class.php */
