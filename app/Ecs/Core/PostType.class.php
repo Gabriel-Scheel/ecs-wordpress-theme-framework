@@ -123,6 +123,10 @@ class PostType
             'slug' => $singular
         );
 
+        if (isset($params['args'])) {
+            $this->args = array_merge($this->args, $params['args']);
+        }
+
         register_post_type($this->id, $this->args);
     }
 }

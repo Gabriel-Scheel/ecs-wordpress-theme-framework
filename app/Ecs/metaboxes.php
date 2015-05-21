@@ -14,7 +14,7 @@
 if (is_admin() && class_exists('RW_Meta_Box')) {
     $metaboxes = array();
 
-    // Cover Metaboxes
+    // Example Metaboxes
     $metaboxes[] = array(
         'id' => 'mb_cover_fields',
         'title' => 'Cover Custom Fields',

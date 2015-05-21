@@ -5,20 +5,26 @@
 
 require 'app/Ecs/common.php';
 
-// Init a theme object by passing in a unique name for the theme. This name will be used as the langkey
+// Init a theme object by passing in a unique name for the theme. This name will be used as the lang key
 $theme = new Ecs\Modules\Theme('my-theme-name');
 
-// Pass a config array to Theme::run() to setup the theme.
+// Pass a config array to Theme::run() to bootstrap the theme.
 $theme->run(array(
 
     // Define Post Types
     'post_types' => array(
         'Cover' => array(
+            // Default supports
             'supports' => array(
                 'title',
+                'editor',
                 'thumbnail',
-                'custom-fields',
+                'revisions',
             ),
+            // Default args
+            'args' => array(
+                'description' => $theme->lang('Describe the post type'),
+            )
         )
     ),
 
