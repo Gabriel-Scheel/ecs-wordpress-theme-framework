@@ -295,3 +295,14 @@ array(
 # Menus
 
 # Sidebars
+
+# Helpers
+* render_partial
+* __
+* pr
+* debug
+* get_instance
+* register_object
+* date
+* json_response
+
