@@ -16,14 +16,14 @@ class Taxonomy
 
     /**
      * Name of this taxonomy.
-     * 
+     *
      * @var string $name
      */
     public $name = '';
 
     /**
      * Default args.
-     * 
+     *
      * @var array $args
      */
     public $args = array();
@@ -36,7 +36,7 @@ class Taxonomy
     public $labels = array();
 
     /**
-     * 
+     *
      */
     public function __construct($name, $params = array(), $args = array())
     {
@@ -100,9 +100,8 @@ class Taxonomy
         Else you could run into minetraps where the post type isn't attached inside filter 
         callback that run during parse_request or pre_get_posts.
         */
-        // 
-        foreach ($params['post_types'] as $post_type)
-        {
+        //
+        foreach ($params['post_types'] as $post_type) {
             if (!in_array($post_type, array('post', 'page', 'attachment', 'revision', 'nav_menu_item'))) {
                 register_taxonomy_for_object_type(strtolower($this->name), $post_type);
             }

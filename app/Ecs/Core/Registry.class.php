@@ -2,8 +2,8 @@
 namespace Ecs\Core;
 
 /**
- * Registry 
- * 
+ * Registry
+ *
  * @category   ECS_WordPress
  * @package    Core
  * @subpackage Registry
@@ -27,7 +27,8 @@ class Registry
     /**
      *
      */
-    public function set($key, $value) {
+    public function set($key, $value)
+    {
         if (isset($this->registry[$key])) {
             throw new \Exception("There is already an entry for key " . $key);
         }
@@ -38,7 +39,8 @@ class Registry
     /**
      *
      */
-    public function get($key) {
+    public function get($key)
+    {
         if (!isset($this->registry[$key])) {
             throw new \Exception("There is no entry for key " . $key);
         }
@@ -51,8 +53,7 @@ class Registry
      */
     public static function getInstance()
     {
-        if (self::$instance === null)
-        {
+        if (self::$instance === null) {
             self::$instance = new Registry();
         }
 
@@ -62,14 +63,16 @@ class Registry
     /**
      *
      */
-    private function __construct(){
+    private function __construct()
+    {
 
     }
 
     /**
      *
      */
-    private function __clone(){
+    private function __clone()
+    {
 
     }
 }

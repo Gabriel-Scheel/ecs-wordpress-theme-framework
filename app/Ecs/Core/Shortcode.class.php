@@ -95,3 +95,6 @@ class Shortcode
         wp_enqueue_style($this->shortcode_tag . '_button_style', $this->getAssetsUrl('mce-button.css'), __FILE__);
     }
 }
+
+/* End of file Shortcode.class.php */
+/* Location: ./app/Ecs/Core/Shortcode.class.php */
