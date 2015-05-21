@@ -17,14 +17,15 @@ if (is_admin() && class_exists('RW_Meta_Box'))
 
     // Cover Metaboxes
     $metaboxes[] = array(
-        'id' => 'mb_fields',
-        'title' => 'Article Data',
+        'id' => 'mb_cover_fields',
+        'title' => 'Cover Custom Fields',
         'pages' => array('cover'),
         'context' => 'normal',
         'priority' => 'high',
         'fields' => array(
             array(
-                'name' => 'Image',
+                'name' => 'Cover Image',
+                'description' => ecs_lang('Primary cover image, should be WxH'),
                 'id' => 'article_image',
                 'type' => 'plupload_image',
                 'clone' => FALSE,
@@ -37,3 +38,6 @@ if (is_admin() && class_exists('RW_Meta_Box'))
         new \RW_Meta_Box($mb);
     }
 }
+
+/* End of file metaboxes.php */
+/* Location: ./app/Ecs/metaboxes.php */

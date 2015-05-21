@@ -74,5 +74,5 @@ class Registry
     }
 }
 
-/* End of file Registry.class.php */
-/* Location: ./core/Registry.class.php */
+/* End of file registry.class.php */
+/* Location: ./app/Ecs/Core/registry.class.php */

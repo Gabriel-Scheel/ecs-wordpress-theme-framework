@@ -63,6 +63,10 @@ class Theme
         
         $this->config = array_merge($this->config, $config);
         $this->writeConfig('version', $this->theme_information->Version);
+        
+        // Load custom post types, widgets, etc. 
+        add_action('init', array($this, 'loadPostTypes'));
+        add_action('init', array(&$this, 'registerTaxonomies'));
 
         // Display admin notices
         add_action('admin_notices', array(&$this, 'printThemeErrors'), 9999);
@@ -85,9 +89,11 @@ class Theme
         add_action('after_setup_theme', array(&$this, 'registerImageSizes'));
         add_action('after_setup_theme', array(&$this, 'registerNavMenus'));
         add_action('after_setup_theme', array(&$this, 'registerSidebars'));
-        
-        // Load custom post types, widgets, etc. 
-        add_action('init', array($this, 'loadPostTypes'));
+
+        // Setup custom metaboxes
+        if (class_exists('RW_Meta_Box')) {
+            add_filter('rwmb_meta_boxes', array(&$this, 'registerMetaboxes'));
+        }
 
     }
 
@@ -311,7 +317,7 @@ class Theme
 
     ////////////////////////////////////////////////////////////////////////////////
     //
-    // Custom Post Types
+    // Custom Post Types & Taxonomies
     //
     ////////////////////////////////////////////////////////////////////////////////
 
@@ -320,15 +326,31 @@ class Theme
      */
     public function loadPostTypes()
     {
-        if ($this->config('post_types') === false) {
+        $post_types = $this->config('post_types');
+
+        if ($post_types === false) {
             return;
         }
 
-        foreach ($this->config('post_types') as $post_type => $params) {
+        foreach ($post_types as $post_type => $params) {
             new \Ecs\Core\PostType($post_type, $params);
         }
+    }
 
-        $this->writeConfig('post_types', get_post_types(array('_builtin' => false)));
+    /**
+     * Register Taxonomies
+     */
+    public function registerTaxonomies()
+    {
+        $taxonomies = $this->config('taxonomies');
+
+        if (empty($taxonomies)) {
+            return;
+        }
+
+        foreach ($taxonomies as $name => $opts) {
+            new \Ecs\Core\Taxonomy($name, $opts['params'], $opts['args']);
+        }
     }
 
     ////////////////////////////////////////////////////////////////////////////////
@@ -465,6 +487,9 @@ class Theme
         register_nav_menus($menus);
     }
 
+    /**
+     * Register Sidebars
+     */
     public function registerSidebars()
     {
         $menus = $this->config('menus');
@@ -476,7 +501,15 @@ class Theme
         register_nav_menus($menus);
     }
 
+    /**
+     * Register Metaboxes
+     */
+    public function registerMetaboxes()
+    {
+        require_once APP_PATH . '/Ecs/metaboxes.php';
+    }
+
 }
 
 /* End of file Theme.class.php */
-/* Location: ./core/Theme.class.php */
+/* Location: ./app/Ecs/Core/Theme.class.php */

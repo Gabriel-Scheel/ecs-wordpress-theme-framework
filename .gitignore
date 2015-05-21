@@ -4,19 +4,3 @@
 .sass-cache/
 
 .DS_Store
-
-/app/post_types/*
-!/app/post_types/index.html
-
-/app/partials/*
-!/app/partials/index.html
-
-/app/shortcodes/*
-!/app/shortcodes/index.html
-
-/app/snippets/*
-!/app/snippets/index.html
-!/app/snippets/urls.snippet.php
-
-/app/widgets/*
-!/app/widgets/index.html

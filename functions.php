@@ -13,7 +13,7 @@ $theme = new Ecs\Modules\Theme('my-theme-name');
 // Pass a config array to Theme::run() to setup the theme.
 $theme->run(array(
 
-	// Define Custom Post Types
+	// Define Post Types
 	'post_types' => array(
 		'Cover' => array(
 			'supports' => array(
@@ -22,6 +22,32 @@ $theme->run(array(
 		        'custom-fields',  
 		    ),
 		)
+	),
+
+	// Define Taxonomies
+	// https://codex.wordpress.org/Function_Reference/register_taxonomy
+	'taxonomies' => array(
+        'cover_categories' => array(
+        	'params' => array(
+        		'post_types'   => array('cover'),
+        	),
+	        'args' => array(
+	            'label'        => $theme->__('Cover Categories'),
+	            'rewrite'      => 'cover_categories',
+	            'hierarchical' => true,
+            )
+        ),
+        'cover_tags' => array(
+        	'params' => array(
+        		'post_types'   => array('cover'),
+        	),
+	        'args' => array(
+	            'label'        => $theme->__('Cover Tags'),
+	            'rewrite'      => 'cover_tags',
+	            'hierarchical' => false,
+	            'show_admin_column' => false
+            )
+        ),
 	),
 
 	// Define theme features
@@ -99,16 +125,16 @@ $theme->run(array(
 		'stylesheets' => array(
 			'style' => array(
 				'source' => get_stylesheet_directory_uri() . '/assets/css/app.css',
-				'dependencies' => FALSE,
+				'dependencies' => false,
 				'version' => 'v1'
 			),
 		),
 		'scripts' => array(
 			'main' => array(
 				'source' => get_stylesheet_directory_uri() . '/assets/js/main.js',
-				'dependencies' => FALSE,
+				'dependencies' => false,
 				'version' => 'v1',
-				'in_footer' => TRUE
+				'in_footer' => true
 			),
 		)
 	)

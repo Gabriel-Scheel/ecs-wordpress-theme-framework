@@ -30,10 +30,9 @@ spl_autoload_register(function($className)
 
 // Load required libs
 require_once 'helpers.php';
-require_once 'metaboxes.php';
 
 // Load required vendors
 require_once VENDOR_PATH . DIRECTORY_SEPARATOR . 'plugin-activation' . DIRECTORY_SEPARATOR . 'class-tgm-plugin-activation.php';
 
 /* End of file common.php */
-/* Location: ./core/commomn.php */
+/* Location: ./app/Ecs/common.php */

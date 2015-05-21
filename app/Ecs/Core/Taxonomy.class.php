@@ -2,48 +2,24 @@
 namespace Ecs\Core;
 
 /**
- * Post Type Base Class
+ * Taxonomy Base Class
  *
  * @category   ECS_WordPress
  * @package    Core
- * @subpackage PostType
+ * @subpackage Taxonomy
  * @author     Roy Lindauer <hello@roylindauer.com>
  * @license    http://www.apache.org/licenses/LICENSE-2.0.html  Apache License, Version 2.0
  * @link       http://roylindauer.com
  */
-class PostType
+class Taxonomy
 {
 
     /**
-     * Name of this post type.
+     * Name of this taxonomy.
      * 
      * @var string $name
      */
     public $name = '';
-    
-    /**
-     * The type of post type. Or the post types type...
-     * 
-     * @var string $post
-     */
-    public $type = 'post';
-    
-    /**
-     * Post type support features.
-     * 
-     * @var array $supports
-     */
-    public $supports = array(
-        'title', 
-        'editor', 
-        'page-attributes',
-        'author',
-        'thumbnail',
-        'custom-fields', 
-        'revisions',
-        'page-attributes',
-        'post-formats',
-    );
 
     /**
      * Default args.
@@ -62,41 +38,42 @@ class PostType
     /**
      * 
      */
-    public function __construct($name, $params = array())
+    public function __construct($name, $params = array(), $args = array())
     {
         $this->name = $name;
-
-        if (isset($params['supports'])) {
-            $this->supports = $params['supports'];
-        }
 
         $this->Inflector = new \Ecs\Core\Inflector();
         
         // Convention over configuration!
         $singular = $this->Inflector->humanize($this->name);
         $plural   = $this->Inflector->humanize($this->Inflector->pluralize($this->name));
-        
+
         $this->labels = array(
             'name' =>                   $plural,
             'singular_name' =>          $singular,
             'add_new' =>                sprintf(__('Add New %s'), $singular),
             'add_new_item' =>           sprintf(__('Add New %s'), $singular),
             'edit_item' =>              sprintf(__('Edit %s'), $singular),
-            'new_item' =>               sprintf(__('New %s'), $singular),
+            'new_item_name' =>          sprintf(__('New %s'), $singular),
             'all_items' =>              sprintf(__('All %s'), $plural),
             'view_item' =>              sprintf(__('View %s'), $singular),
             'search_items' =>           sprintf(__('Search %s'), $plural),
+            'popular_items' =>          sprintf(__('Popular %s'), $plural),
             'not_found' =>              sprintf(__('No %s found'), $plural),
             'not_found_in_trash' =>     sprintf(__('No %s found in trash'), $plural),
-            'parent_item_colon' =>      '',
-            'menu_name' =>              $plural
+            'parent_item' =>            sprintf(__('Parent %s'), $singular),
+            'parent_item_colon' =>      sprintf(__('Parent %s:'), $singular),
+            'menu_name' =>              $plural,
+            'separate_items_with_commas' => sprintf(__('Separate %s with commas'), $plural),
+            'add_or_remove_items' =>    sprintf(__('Add or remove %s'), $plural),
+            'choose_from_most_used' =>  sprintf(__('Choose from the most used %s'), $plural),
         );
         
         // Post type defaults
         $this->args = array(
             'labels' => $this->labels,
-            'description' => '',
             'public' => true,
+            'description' => '',
             'exclude_from_search ' => false,
             'publicly_queryable' => true,
             'show_ui' => true,
@@ -104,17 +81,34 @@ class PostType
             'show_in_menu' => true,
             'query_var' => true,
             'rewrite' => true,
-            'capability_type' => $this->type,
             'has_archive' => true,
             'hierarchical' => false,
-            'supports' => $this->supports,
-            'slug' => $singular
+            'slug' => $singular,
+            'show_tagcloud' => true,
+            'show_in_quick_edit' => true,
+            'show_admin_column' => true
         );
 
-        register_post_type(strtolower($this->name), $this->args);
-    }
+        $this->args = array_merge($this->args, $args);
 
+        register_taxonomy(strtolower($this->name), $params['post_types'], $this->args);
+
+        /*
+        https://codex.wordpress.org/Function_Reference/register_taxonomy
+        Better be safe than sorry when registering custom taxonomies for custom post types. 
+        Use register_taxonomy_for_object_type() right after the function to interconnect them. 
+        Else you could run into minetraps where the post type isn't attached inside filter 
+        callback that run during parse_request or pre_get_posts.
+        */
+        // 
+        foreach ($params['post_types'] as $post_type)
+        {
+            if (!in_array($post_type, array('post', 'page', 'attachment', 'revision', 'nav_menu_item'))) {
+                register_taxonomy_for_object_type(strtolower($this->name), $post_type);
+            }
+        }
+    }
 }
 
-/* End of file PostType.class.php */
-/* Location: ./core/PostType.class.php */
+/* End of file Taxonomy.class.php */
+/* Location: ./app/Ecs/Core/Taxonomy.class.php */
