@@ -65,8 +65,9 @@ class Theme
         $this->writeConfig('version', $this->theme_information->Version);
         
         // Load custom post types, widgets, etc. 
-        add_action('init', array($this, 'loadPostTypes'));
+        add_action('init', array(&$this, 'loadPostTypes'));
         add_action('init', array(&$this, 'registerTaxonomies'));
+        add_action('init', array(&$this, 'loadShortcodes'));
 
         // Display admin notices
         add_action('admin_notices', array(&$this, 'printThemeErrors'), 9999);
@@ -507,6 +508,23 @@ class Theme
     public function registerMetaboxes()
     {
         require_once APP_PATH . '/Ecs/metaboxes.php';
+    }
+
+    /**
+     * Load Shortcodes
+     */
+    public function loadShortcodes()
+    {
+        $shortcodes = $this->config('shortcodes');
+
+        if (empty($shortcodes)) {
+            return;
+        }
+
+        foreach ($shortcodes as $shortcode) {
+            $shortcode = "\Ecs\Shortcodes\\$shortcode\\$shortcode";
+            new $shortcode();
+        }
     }
 
 }

@@ -48,6 +48,11 @@ $theme->run(array(
         ),
 	),
 
+	// Load shortcodes
+	'shortcodes' => array(
+		'Button'
+	),
+
 	// Define theme features
 	// http://codex.wordpress.org/Function_Reference/add_theme_support
 	'theme_features' => array(
