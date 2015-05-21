@@ -15,6 +15,13 @@ class PostType
 {
 
     /**
+     * ID of this post type. aka the all lowercase no spaces version of $name
+     * 
+     * @var string $name
+     */
+    public $id = '';
+
+    /**
      * Name of this post type.
      * 
      * @var string $name
@@ -65,6 +72,11 @@ class PostType
     public function __construct($name, $params = array())
     {
         $this->name = $name;
+        $this->id   = strtolower($this->name);
+
+        if (in_array($this->id, array('post', 'page', 'attachment', 'revision', 'nav_menu_item'))) {
+            wp_die(sprintf('That post type is reserved - %s'), $this->id);
+        }
 
         if (isset($params['supports'])) {
             $this->supports = $params['supports'];
@@ -111,7 +123,7 @@ class PostType
             'slug' => $singular
         );
 
-        register_post_type(strtolower($this->name), $this->args);
+        register_post_type($this->id, $this->args);
     }
 
 }
