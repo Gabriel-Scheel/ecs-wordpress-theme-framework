@@ -14,7 +14,7 @@
 // Setup defines
 define('DS', DIRECTORY_SEPARATOR);
 define('APP_PATH', dirname(dirname(realpath(__FILE__))));
-define('VENDOR_PATH', APP_PATH . DIRECTORY_SEPARATOR . 'vendor');
+define('VENDOR_PATH', APP_PATH . DS . 'vendor');
 define('ECS_TIMEZONE', 'America/Los_Angeles');
 
 // Setup Autoloader
@@ -32,7 +32,7 @@ spl_autoload_register(function($className)
 require_once 'helpers.php';
 
 // Load required vendors
-require_once VENDOR_PATH . DIRECTORY_SEPARATOR . 'plugin-activation' . DIRECTORY_SEPARATOR . 'class-tgm-plugin-activation.php';
+require_once VENDOR_PATH . DS . 'plugin-activation' . DS . 'class-tgm-plugin-activation.php';
 
 /* End of file common.php */
 /* Location: ./app/Ecs/common.php */

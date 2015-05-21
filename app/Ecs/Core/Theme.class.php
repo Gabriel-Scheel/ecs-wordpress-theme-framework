@@ -96,6 +96,10 @@ class Theme
             add_filter('rwmb_meta_boxes', array(&$this, 'registerMetaboxes'));
         }
 
+        // Setup ajax endpoint
+        add_action('wp_ajax_ecs_ajax', array(&$this, 'executeAjax'));
+        add_action('wp_ajax_nopriv_ecs_ajax', array(&$this, 'executeAjax'));
+
     }
 
     ////////////////////////////////////////////////////////////////////////////////
@@ -525,6 +529,34 @@ class Theme
             $shortcode = "\Ecs\Shortcodes\\$shortcode\\$shortcode";
             new $shortcode();
         }
+    }
+
+    /**
+     * Simple interface for executing ajax requests
+     * Usage: /wp-admin/admin-ajax.php?action=ecs_ajax&c=CLASS&m=METHOD
+     */
+    public function executeAjax()
+    {
+        // Make sure we have a class and a method to execute
+        if (isset($_GET['c'])) {
+            $c = filter_var($_GET['c'], FILTER_SANITIZE_STRING);
+        }
+
+        if (isset($_GET['m'])) {
+            $m = filter_var($_GET['m'], FILTER_SANITIZE_STRING);
+        }
+
+        $class = "\Ecs\\Modules\\$c";
+        $Obj = new $class();
+
+        if (!method_exists($Obj, $m)) {
+            ecs_json_response(array('error' => 'That method does not exist'));
+        }
+
+        $Obj->$m();
+
+        // Make sure this thing dies so it never echoes back that damn zero.
+        die();
     }
 
 }

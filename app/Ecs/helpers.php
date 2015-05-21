@@ -138,5 +138,27 @@ function ecs_lang($str = '')
     return $Theme->__($str);
 }
 
+/**
+ *
+ */
+function ecs_render_partial($partial, $data = array())
+{
+    global $wp_query;
+    $file = 'app/partials' . DS . $partial . '.php';
+    $wp_query->query_vars['partialData'] = $data;
+    locate_template($file, true, false);
+}
+
+/**
+ *
+ */
+function ecs_json_response($content = '')
+{
+    if (!empty($content)) {
+        header('Content-type: application/json');
+        die(json_encode($content));
+    }
+}
+
 /* End of file helpers.php */
 /* Location: ./app/Ecs/helpers.php */

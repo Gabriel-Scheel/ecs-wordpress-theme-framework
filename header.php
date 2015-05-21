@@ -36,5 +36,6 @@
 <body <?php body_class(); ?>>
 
 <?php
+ecs_render_partial('test');
 /* End of file header.php */
 /* Location: ./header.php */
