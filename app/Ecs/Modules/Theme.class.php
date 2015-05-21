@@ -3,7 +3,7 @@ namespace Ecs\Modules;
 
 /**
  * Custom Theme, extends Base Theme
- * 
+ *
  * @category   ECS_WordPress
  * @package    Modules
  * @subpackage Theme
@@ -13,7 +13,15 @@ namespace Ecs\Modules;
  */
 class Theme extends \Ecs\Core\Theme
 {
-    
+    /**
+     * Extend base run method. Bootstraps theme.
+     */
+    public function run($config)
+    {
+        parent::run($config);
+
+        ///// Add Hooks Below /////
+    }
 }
 
 /* End of file Theme.class.php */

@@ -24,7 +24,7 @@ if (is_admin() && class_exists('RW_Meta_Box')) {
         'fields' => array(
             array(
                 'name' => 'Cover Image',
-                'description' => \Ecs\Helpers\lang('Primary cover image, should be WxH'),
+                'description' => \Ecs\Helpers\__('Primary cover image, should be WxH'),
                 'id' => 'article_image',
                 'type' => 'plupload_image',
                 'clone' => false,
