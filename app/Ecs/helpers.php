@@ -17,7 +17,6 @@
  *
  * This code allows the theme to work without errors if the Options Framework plugin has been disabled.
  */
-
 if ( !function_exists( 'of_get_option' ) ) {
 function of_get_option($name, $default = false) {
     
@@ -36,6 +35,26 @@ function of_get_option($name, $default = false) {
         return $default;
     }
 }
+}
+
+/**
+ * Retrieve object from class registry
+ * 
+ * @param mixed $object
+ */
+function ecs_get_instance($name)
+{
+    $registry = Ecs\Core\Registry::getInstance();
+    return $registry->get($name);
+}
+
+/**
+ * Wrapper function for registering an object to the class registry
+ */
+function ecs_register_object($name, $object)
+{
+    $registry = Ecs\Core\Registry::getInstance();
+    $registry->set($name, $object);
 }
 
 /**
@@ -115,9 +134,7 @@ function ecs_date($format = 'Y-m-d H:i:s', $timestamp = false)
  */
 function ecs_lang($str = '')
 {
-    $registry = Ecs\Core\Registry::getInstance();
-    $Theme = $registry->get('Theme');
-
+    $Theme = ecs_get_instance('Theme');
     return $Theme->__($str);
 }
 

@@ -5,8 +5,6 @@
 
 require 'app/Ecs/common.php';
 
-$registry = Ecs\Core\Registry::getInstance();
-
 // Init a theme object by passing in a unique name for the theme. This name will be used as the langkey
 $theme = new Ecs\Modules\Theme('my-theme-name');
 
@@ -140,7 +138,7 @@ $theme->run(array(
 	)
 ));
 
-$registry->set('Theme', $theme);
+ecs_register_object('Theme', $theme);
 
 /* End of file functions.php */
 /* Location: ./functions.php */
