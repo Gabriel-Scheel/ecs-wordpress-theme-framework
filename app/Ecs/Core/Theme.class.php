@@ -550,7 +550,7 @@ class Theme
         $Obj = new $class();
 
         if (!method_exists($Obj, $m)) {
-            ecs_json_response(array('error' => 'That method does not exist'));
+            ecs_json_response(array('error' => 'Ajax method does not exist'));
         }
 
         $Obj->$m();
