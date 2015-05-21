@@ -533,27 +533,47 @@ class Theme
 
     /**
      * Simple interface for executing ajax requests
-     * Usage: /wp-admin/admin-ajax.php?action=ecs_ajax&c=CLASS&m=METHOD
+     *
+     * References:
+     * https://codex.wordpress.org/WordPress_Nonces
+     * https://codex.wordpress.org/Function_Reference/wp_nonce_url
+     * 
+     * Usage: /wp-admin/admin-ajax.php?action=ecs_ajax&c=CLASS&m=METHOD&_ecs_ajax_nonce=<STRING>
+     * Create nonce url: wp_nonce_url($actionurl, $action, ECS_AJAX_NONCE);
+     * Ajax methods should be named - AjaxMethod, and should be called in your url like: m=method
+     * eg: to call the ajax method doThing in our Test class: 
+     * the method should be named ajaxDoThing, and our url should call it like: m=doThing
      */
     public function executeAjax()
     {
-        // Make sure we have a class and a method to execute
-        if (isset($_GET['c'])) {
+        try {
+
+            // Make sure we have a class and a method to execute
+            if (!isset($_GET['c']) && !isset($_GET['m'])) {
+                throw new \Exception('Invalid Ajax request');
+            }
+
             $c = filter_var($_GET['c'], FILTER_SANITIZE_STRING);
+            $class = "\Ecs\\Modules\\$c";
+
+            $Obj = new $class();
+
+            $Inflector = new \Ecs\Core\Inflector();
+
+            // Convert our method "ajax_method" to proper camelized "ajaxMethod"
+            $m = $Inflector->camelize('ajax_' . filter_var($_GET['m'], FILTER_SANITIZE_STRING));
+
+            if (!method_exists($Obj, $m)) {
+                throw new \Exception('Ajax method does not exist');
+            }
+
+            $result = $Obj->$m();
+
+            ecs_json_response($result);
+
+        } catch (\Exception $e) {
+            ecs_json_response(array('error' => $e->getMessage()));
         }
-
-        if (isset($_GET['m'])) {
-            $m = filter_var($_GET['m'], FILTER_SANITIZE_STRING);
-        }
-
-        $class = "\Ecs\\Modules\\$c";
-        $Obj = new $class();
-
-        if (!method_exists($Obj, $m)) {
-            ecs_json_response(array('error' => 'Ajax method does not exist'));
-        }
-
-        $Obj->$m();
 
         // Make sure this thing dies so it never echoes back that damn zero.
         die();
