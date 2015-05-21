@@ -312,7 +312,7 @@ class Theme
             foreach ($this->config('dependencies.classes') as $name => $class) {
                 if (!class_exists($class)) {
                     echo '<div class="error"><p>'
-                    . sprintf($this->__('Please make sure that %s is installed'), $class)
+                    . sprintf($this->lang('Please make sure that %s is installed'), $class)
                     . '</p></div>';
                 }
             }
@@ -423,7 +423,7 @@ class Theme
             $output .= '<li>' . $error . '</li>';
         }
 
-        echo '<div class="error"><h4>'.$this->__('Theme Errors & Warnings').'</h4><ul>';
+        echo '<div class="error"><h4>'.$this->lang('Theme Errors & Warnings').'</h4><ul>';
         echo $output;
         echo '</ul></div>';
     }

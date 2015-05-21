@@ -47,7 +47,7 @@ if (!function_exists('of_get_option')) {
  */
 function get_instance($name)
 {
-    $registry = Ecs\Core\Registry::getInstance();
+    $registry = \Ecs\Core\Registry::getInstance();
     return $registry->get($name);
 }
 
@@ -56,7 +56,7 @@ function get_instance($name)
  */
 function register_object($name, $object)
 {
-    $registry = Ecs\Core\Registry::getInstance();
+    $registry = \Ecs\Core\Registry::getInstance();
     $registry->set($name, $object);
 }
 
@@ -136,7 +136,7 @@ function date($format = 'Y-m-d H:i:s', $timestamp = false)
 function __($str = '')
 {
     $Theme = \Ecs\Helpers\get_instance('Theme');
-    return $Theme->__($str);
+    return $Theme->lang($str);
 }
 
 /**

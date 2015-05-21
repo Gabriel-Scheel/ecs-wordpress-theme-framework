@@ -30,7 +30,7 @@ $theme->run(array(
                 'post_types'   => array('cover'),
             ),
             'args' => array(
-                'label'        => \Ecs\Helpers\__('Cover Categories'),
+                'label'        => $theme->lang('Cover Categories'),
                 'rewrite'      => 'cover_categories',
                 'hierarchical' => true,
             )
@@ -40,7 +40,7 @@ $theme->run(array(
                 'post_types'   => array('cover'),
             ),
             'args' => array(
-                'label'        => \Ecs\Helpers\__('Cover Tags'),
+                'label'        => $theme->lang('Cover Tags'),
                 'rewrite'      => 'cover_tags',
                 'hierarchical' => false,
                 'show_admin_column' => false
@@ -75,9 +75,9 @@ $theme->run(array(
     // Define custom nav menus
     // https://codex.wordpress.org/Function_Reference/register_nav_menu
     'menus' => array(
-        'main-menu'   => $theme->__('Main Menu'),
-        'sub-menu'    => $theme->__('Sub Menu'),
-        'footer-menu' => $theme->__('Footer Menu')
+        'main-menu'   => $theme->lang('Main Menu'),
+        'sub-menu'    => $theme->lang('Sub Menu'),
+        'footer-menu' => $theme->lang('Footer Menu')
     ),
 
     // Define custom sidebars
@@ -85,7 +85,7 @@ $theme->run(array(
     'sidebars' => array(
         array(
             'id'            => 'my-custom-sidebar',
-            'name'          => $theme->__('My Custom Sidebar'),
+            'name'          => $theme->lang('My Custom Sidebar'),
             'description'   => '',
             'class'         => '',
             'before_widget' => '<li id="%1$s" class="widget %2$s">',
