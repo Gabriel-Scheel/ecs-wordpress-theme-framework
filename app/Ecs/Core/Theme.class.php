@@ -533,13 +533,8 @@ class Theme
 
     /**
      * Simple interface for executing ajax requests
-     *
-     * References:
-     * https://codex.wordpress.org/WordPress_Nonces
-     * https://codex.wordpress.org/Function_Reference/wp_nonce_url
      * 
-     * Usage: /wp-admin/admin-ajax.php?action=ecs_ajax&c=CLASS&m=METHOD&_ecs_ajax_nonce=<STRING>
-     * Create nonce url: wp_nonce_url($actionurl, $action, ECS_AJAX_NONCE);
+     * Usage: /wp-admin/admin-ajax.php?action=ecs_ajax&c=CLASS&m=METHOD
      * Ajax methods should be named - AjaxMethod, and should be called in your url like: m=method
      * eg: to call the ajax method doThing in our Test class: 
      * the method should be named ajaxDoThing, and our url should call it like: m=doThing
