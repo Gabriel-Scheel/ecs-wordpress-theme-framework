@@ -145,7 +145,7 @@ function __($str = '')
 function render_partial($partial, $data = array())
 {
     global $wp_query;
-    $file = 'app/partials' . DS . $partial . '.php';
+    $file = 'partials' . DS . $partial . '.php';
     $wp_query->query_vars['partialData'] = $data;
     locate_template($file, true, false);
 }
