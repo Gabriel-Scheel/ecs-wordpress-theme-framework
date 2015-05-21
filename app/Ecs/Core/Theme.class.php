@@ -1,33 +1,17 @@
 <?php
-namespace Ecs\WordPress;
+namespace Ecs\Core;
 
 /**
- * Wordpress Theme Class
+ * Theme Base Class
  *
- * PHP version 5
- *
- * LICENSE: 
- *
- * @category   ECS_WP_ThemeCore
- * @package    Core
- * @subpackage Theme
- * @author     Roy Lindauer <hello@roylindauer.com>
- * @copyright  2013 Roy Lindauer
- * @license    http://www.apache.org/licenses/LICENSE-2.0.html  Apache License, Version 2.0
- * @link       http://roylindauer.com
- */
-
-/**
- * Theme Class
- *
- * @category   ECS_WP_ThemeCore
+ * @category   ECS_WordPress
  * @package    Core
  * @subpackage Theme
  * @author     Roy Lindauer <hello@roylindauer.com>
  * @license    http://www.apache.org/licenses/LICENSE-2.0.html  Apache License, Version 2.0
  * @link       http://roylindauer.com
  */
-class CoreTheme
+class Theme
 {
 
     /**
@@ -62,8 +46,9 @@ class CoreTheme
     /**
      *
      */
-    public function __construct()
+    public function __construct($name = 'my-theme-name')
     {
+        $this->writeConfig('name', $name);
         $this->theme_information = wp_get_theme();
     }
 
@@ -94,14 +79,15 @@ class CoreTheme
 
         add_action('wp_enqueue_scripts', array(&$this, 'enqueueStylesheets'));
         add_action('wp_enqueue_scripts', array(&$this, 'enqueueScripts'));
+
+        // Setup wp theme features
+        add_action('after_setup_theme', array(&$this, 'registerThemeFeatures'));
+        add_action('after_setup_theme', array(&$this, 'registerImageSizes'));
+        add_action('after_setup_theme', array(&$this, 'registerNavMenus'));
+        add_action('after_setup_theme', array(&$this, 'registerSidebars'));
         
         // Load custom post types, widgets, etc. 
-        add_action('widgets_init', array(&$this, 'loadWidgets'));
-
-        $this->loadPostTypes();
-        $this->loadSnippets();
-        $this->registerThemeFeatures();
-        $this->registerImageSizes();
+        add_action('init', array($this, 'loadPostTypes'));
 
     }
 
@@ -338,76 +324,11 @@ class CoreTheme
             return;
         }
 
-        $registry = Registry::getInstance();
-
-        foreach ($this->config('post_types') as $post_type) {
-            $post_type_path = THEME_PATH . DS . 'app' . DS . 'post_types' . DS . $post_type . '.PostType.php';
-
-            if (!file_exists($post_type_path)) {
-                $this->addThemeError(sprintf($this->__('Could not find post type: %s'), $post_type), 'theme', 'theme');
-                continue;
-            }
-
-            include_once $post_type_path;
-
-            // Init object and add to registry
-            $object = new $post_type;
-            $object->run();
-            $registry->set($post_type, $object);
-        }
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////
-    //
-    // Widgets
-    //
-    ////////////////////////////////////////////////////////////////////////////////
-    
-    /**
-     * 
-     */
-    public function loadWidgets()
-    {
-        if ($this->config('widgets') === false) {
-            return;
+        foreach ($this->config('post_types') as $post_type => $params) {
+            new \Ecs\Core\PostType($post_type, $params);
         }
 
-        foreach ($this->config('widgets') as $widget) {
-            $widget_path = THEME_PATH . DS . 'app' . DS . 'widgets' . DS . $widget . '.Widget.php';
-
-            if (!file_exists($widget_path))  {
-                $this->addThemeError(sprintf($this->__('Could not find widget: %s'), $widget), 'theme', 'theme');
-                continue;
-            }
-
-            include_once $widget_path;
-            register_widget($widget);
-        }
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////
-    //
-    // Load code snippets. 
-    // 
-    // Code snippets are collections of functions to extend functionality of the theme 
-    // without bloating the core libraries. Sometimes you just need to include a
-    // st of functions
-    //
-    ////////////////////////////////////////////////////////////////////////////////
-
-    /**
-     * 
-     */
-    private function loadSnippets()
-    {
-        if ($handle = opendir(THEME_PATH . DS . 'app' . DS . 'snippets')) {
-            while (false !== ($file = readdir($handle))) {
-                if ($file != "." && $file != ".." && strtolower(substr($file, strpos($file, '.') + 1)) == 'snippet.php') {
-                    include_once THEME_PATH . DS . 'app' . DS . 'snippets' . DS . $file;
-                }
-            }
-            closedir($handle);
-        }
+        $this->writeConfig('post_types', get_post_types(array('_builtin' => false)));
     }
 
     ////////////////////////////////////////////////////////////////////////////////
@@ -476,11 +397,9 @@ class CoreTheme
             $output .= '<li>' . $error . '</li>';
         }
 
-        if ($this->config('debug.enable_debug') === true) {
-            echo '<div class="error"><h4>'.$this->__('Theme Errors & Warnings').'</h4><ul>';
-            echo $output;
-            echo '</ul></div>';
-        }
+        echo '<div class="error"><h4>'.$this->__('Theme Errors & Warnings').'</h4><ul>';
+        echo $output;
+        echo '</ul></div>';
     }
 
     ////////////////////////////////////////////////////////////////////////////////
@@ -490,9 +409,10 @@ class CoreTheme
     ////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * Add theme features per user config.
+     * Add theme features
      */
-    public function registerThemeFeatures() {
+    public function registerThemeFeatures()
+    {
         $features = $this->config('theme_features');
 
         if (empty($features)) {
@@ -511,49 +431,49 @@ class CoreTheme
     }
 
     /**
-     * Add custom image sizes per user config.
+     * Register Image Sizes
      */
-    public function registerImageSizes() {
-        
+    public function registerImageSizes()
+    {
         $image_sizes = $this->config('image_sizes');
 
         if (empty($image_sizes)) {
             return;
         }
 
-        $reserved_names = array(
-            'thumb', 
-            'thumbnail', 
-            'medium', 
-            'large', 
-            'post-thumbnail'
-        );
-
-        foreach ($image_sizes as $name => $size) {
-            
-
-            if (in_array($name, $reserved_names)) {
-                $this->addThemeError('Theme::registerImageSizes() - Ooh, ' . $name . ' is a reserved image size name, you must use something different', 'theme', 'theme');
-                return false;
+        foreach ($image_sizes as $name => $opts) {
+            // Check wp reserved names for image sizes
+            if (in_array($name, array('thumb', 'thumbnail'))) {
+                $this->addThemeError(sprintf('Image size identifier "%s" is reserved', $name));
+            } else {
+                add_image_size($name, @$opts['width'], @$opts['height'], @$opts['crop']);
             }
-
-            if (!isset($size['width'])) {
-                $this->addThemeError('Theme::registerImageSizes() - Width must be set', 'theme', 'theme');
-                return false;
-            }
-            
-            if (!isset($size['height'])) {
-                $this->addThemeError('Theme::registerImageSizes() - Height must be set', 'theme', 'theme');
-                return false;
-            }
-            
-            if (!isset($size['crop'])) {
-                $this->addThemeError('Theme::registerImageSizes() - Crop must be set', 'theme', 'theme');
-                return false;
-            }
-
-            add_image_size($name, $size['width'], $size['height'], $size['crop']);
         }
+    }
+
+    /**
+     * Register Nav Menus
+     */
+    public function registerNavMenus()
+    {
+        $menus = $this->config('menus');
+
+        if (empty($menus)) {
+            return;
+        }
+
+        register_nav_menus($menus);
+    }
+
+    public function registerSidebars()
+    {
+        $menus = $this->config('menus');
+
+        if (empty($menus)) {
+            return;
+        }
+
+        register_nav_menus($menus);
     }
 
 }

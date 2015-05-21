@@ -14,8 +14,7 @@
  * @license    http://www.apache.org/licenses/LICENSE-2.0.html  Apache License, Version 2.0
  * @link       http://roylindauer.com
  */
-?>
-<!DOCTYPE html>
+?><!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->

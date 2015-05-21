@@ -1,33 +1,18 @@
 <?php
-namespace Ecs\WordPress;
-
-/**
- * Class Registry 
- *
- * PHP version 5
- *
- * LICENSE: 
- *
- * @category   ECS_WP_ThemeCore
- * @package    App
- * @subpackage Theme
- * @author     Roy Lindauer <hello@roylindauer.com>
- * @copyright  2013 Roy Lindauer
- * @license    http://www.apache.org/licenses/LICENSE-2.0.html  Apache License, Version 2.0
- * @link       http://roylindauer.com
- */
+namespace Ecs\Core;
 
 /**
  * Registry 
  * 
- * @category   ECS_WP_ThemeCore
- * @package    App
- * @subpackage Theme
+ * @category   ECS_WordPress
+ * @package    Core
+ * @subpackage Registry
  * @author     Roy Lindauer <hello@roylindauer.com>
  * @license    http://www.apache.org/licenses/LICENSE-2.0.html  Apache License, Version 2.0
  * @link       http://roylindauer.com
  */
-class Registry {
+class Registry
+{
 
     /**
      *
@@ -64,8 +49,10 @@ class Registry {
     /**
      *
      */
-    public static function getInstance() {
-        if (self::$instance === null) {
+    public static function getInstance()
+    {
+        if (self::$instance === null)
+        {
             self::$instance = new Registry();
         }
 
@@ -86,3 +73,6 @@ class Registry {
 
     }
 }
+
+/* End of file Registry.class.php */
+/* Location: ./core/Registry.class.php */

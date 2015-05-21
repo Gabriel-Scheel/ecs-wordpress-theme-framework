@@ -1,38 +1,27 @@
 <?php
 /**
- * Wordpess Theme "functions"
- *
- * PHP version 5
- *
- * LICENSE: 
- * 
- * @category   ECS_WP_ThemeCore
- * @package    ECS_WP_ThemeCore
- * @subpackage Core
- * @author     Roy Lindauer <hello@roylindauer.com>
- * @copyright  2013 Roy Lindauer
- * @license    http://www.apache.org/licenses/LICENSE-2.0.html  Apache License, Version 2.0
- * @link       http://roylindauer.com
+ * Wordpess Theme init
  */
 
-require_once 'core/bootstrap.php';
+require 'app/Ecs/common.php';
 
-// Setup Theme
-$theme = new Ecs\WordPress\Theme();
+$registry = Ecs\Core\Registry::getInstance();
 
+// Init a theme object by passing in a unique name for the theme. This name will be used as the langkey
+$theme = new Ecs\Modules\Theme('my-theme-name');
+
+// Pass a config array to Theme::run() to setup the theme.
 $theme->run(array(
-	// Set some defaults
-	'name' => 'my-theme-name',
 
-	// Load post types
-	'post_types' => array('Page', 'Cover'),
-	
-	// Load widgets
-	'widgets' => array(),
-	
-	// Configure debugging
-	'debug' => array(
-		'enable_debug' => TRUE
+	// Define Custom Post Types
+	'post_types' => array(
+		'Cover' => array(
+			'supports' => array(
+		        'title', 
+		        'thumbnail',
+		        'custom-fields',  
+		    ),
+		)
 	),
 
 	// Define theme features
@@ -53,6 +42,29 @@ $theme->run(array(
 			'crop' => false
 		),
 	),
+
+	// Define custom nav menus
+	// https://codex.wordpress.org/Function_Reference/register_nav_menu
+	'menus' => array(
+		'main-menu'   => $theme->__('Main Menu'),
+		'sub-menu'    => $theme->__('Sub Menu'),
+		'footer-menu' => $theme->__('Footer Menu')
+	),
+
+	// Define custom sidebars
+	// https://codex.wordpress.org/Function_Reference/register_sidebar
+	'sidebars' => array(
+		array(
+			'id'            => 'my-custom-sidebar',
+			'name'          => $theme->__('My Custom Sidebar'),
+			'description'   => '',
+			'class'         => '',
+			'before_widget' => '<li id="%1$s" class="widget %2$s">',
+			'after_widget'  => '</li>',
+			'before_title'  => '<h2 class="widgettitle">',
+			'after_title'   => '</h2>',
+		),
+	),
 	
 	// Define theme dependencies
 	// Require WP Plugins - http://tgmpluginactivation.com/
@@ -70,6 +82,11 @@ $theme->run(array(
 				'name'      => 'Options Framework',
 				'slug'      => 'options-framework',
 				'required'  => false,
+			),
+			array(
+				'name'      => 'Wordpress SEO',
+				'slug'      => 'wordpress-seo',
+				'required'  => true,
 			),
 		),
 		'classes' => array(
@@ -97,7 +114,6 @@ $theme->run(array(
 	)
 ));
 
-$registry = \Ecs\WordPress\Registry::getInstance();
 $registry->set('Theme', $theme);
 
 /* End of file functions.php */
