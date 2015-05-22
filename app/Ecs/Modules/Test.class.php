@@ -1,7 +1,7 @@
-<?php 
+<?php
 /**
  * Test Class
- * For testing ajax calls, etc. 
+ * For testing ajax calls, etc.
  *
  * @category   ECS_WordPress
  * @package    Core
@@ -19,9 +19,21 @@ class Test
     /**
      * test ajax endpoint
      */
-    public function ajaxDoThing()
+    public function ajaxDoThingJson()
     {
         return array('message' => 'testing');
+    }
+
+    /**
+     * test ajax endpoint
+     */
+    public function ajaxDoThingHtml()
+    {
+        ob_start();
+        echo 'Testing';
+        $contents = ob_get_contents();
+        ob_end_clean();
+        return $contents;
     }
 }
 

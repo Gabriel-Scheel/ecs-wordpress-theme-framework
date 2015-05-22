@@ -547,6 +547,8 @@ class Theme
      * Classes can be whatever you want. They are expected to be namespaces to \Ecs\Modules
      *
      * Output can be rendered as JSON, or HTML
+     *
+     * Generate a nonce: wp_create_nonce('execute_ajax_nonce');
      */
     public function executeAjax()
     {

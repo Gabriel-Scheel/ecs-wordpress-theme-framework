@@ -2,10 +2,6 @@
 /**
  * 404
  *
- * PHP version 5
- *
- * LICENSE: 
- *
  * @category   ECS_WP_ThemeCore
  * @package    ECS_WP_ThemeCore
  * @subpackage Templates
