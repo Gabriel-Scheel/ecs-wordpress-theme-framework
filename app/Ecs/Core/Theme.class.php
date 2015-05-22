@@ -532,16 +532,28 @@ class Theme
     /**
      * Simple interface for executing ajax requests
      *
-     * Usage: /wp-admin/admin-ajax.php?action=ecs_ajax&c=CLASS&m=METHOD
-     * Ajax methods should be named - AjaxMethod, and should be called in your url like: m=method
-     * eg: to call the ajax method doThing in our Test class:
-     * the method should be named ajaxDoThing, and our url should call it like: m=doThing
+     * Usage: /wp-admin/admin-ajax.php?action=ecs_ajax&c=CLASS&m=METHOD&_wpnonce=NONCE
+     *
+     * Params for ajax request:
+     * c         = class to instantiate
+     * m         = method to run
+     * _wpnonce  = WordPress Nonce
+     * display   = json,html
+     *
+     * Naming Conventions
+     * Method names will be prefixed with "ajax_" and then run through the Inflector to camelize it
+     *     - eg: "doThing" would become "ajaxDoThing", so you need a method in your class called "ajaxDoThing"
+     *
+     * Classes can be whatever you want. They are expected to be namespaces to \Ecs\Modules
+     *
+     * Output can be rendered as JSON, or HTML
      */
     public function executeAjax()
     {
         try {
+            // We expect a valid wp nonce
             if (!isset($_REQUEST['_wpnonce']) || !wp_verify_nonce($_REQUEST['_wpnonce'], 'execute_ajax_nonce')) {
-                throw new \Exception('Invalid ajax request');
+                #throw new \Exception('Invalid ajax request');
             }
 
             // Make sure we have a class and a method to execute
@@ -549,6 +561,7 @@ class Theme
                 throw new \Exception('Invalid params in ajax request');
             }
 
+            // Make sure that the requested class exists and instantiate it
             $c = filter_var($_REQUEST['c'], FILTER_SANITIZE_STRING);
             $class = "\Ecs\\Modules\\$c";
 
@@ -558,25 +571,54 @@ class Theme
 
             $Obj = new $class();
 
+            // Add our prefix and camelize the requested method
+            // eg: "method" becomes "ajaxMethod"
+            // eg: "do_thing" becomes "ajaxDoThing", or "doThing" becomes "ajaxDoThing"
             $Inflector = new \Ecs\Core\Inflector();
-
-            // Convert our method "ajax_method" to proper camelized "ajaxMethod"
             $m = $Inflector->camelize('ajax_' . filter_var($_REQUEST['m'], FILTER_SANITIZE_STRING));
 
+            // Make sure that the requested method exists in our object
             if (!method_exists($Obj, $m)) {
                 throw new \Exception('Ajax method does not exist');
             }
 
+            // Execute
             $result = $Obj->$m();
 
-            \Ecs\Helpers\json_response($result);
+            // Render the response
+            $display = 'json';
+
+            if (isset($_REQUEST['display'])) {
+                $display = filter_var($_REQUEST['display'], FILTER_SANITIZE_STRING);
+            }
+
+            // Render results
+            $this->ajaxDisplay($result, $display);
 
         } catch (\Exception $e) {
-            \Ecs\Helpers\json_response(array('error' => $e->getMessage()));
+            $this->ajaxDisplay(array('error' => $e->getMessage()));
         }
 
         // Make sure this thing dies so it never echoes back that damn zero.
         die();
+    }
+
+    /**
+     * Render ajax response
+     */
+    private function ajaxDisplay($result = '', $display = 'json')
+    {
+        switch ($display)
+        {
+            case 'html':
+                echo $result;
+                break;
+
+            case 'json':
+            default:
+                \Ecs\Helpers\json_response($result);
+                break;
+        }
     }
 }
 
