@@ -24,10 +24,7 @@ class Theme
      *
      * @var array
      */
-    private $config = array(
-        'name' => 'mytheme',
-        'post_types' => array()
-    );
+    private $config = array();
 
     /**
      * WP Theme Information.

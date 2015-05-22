@@ -2,8 +2,8 @@
 /**
  * Footer
  *
- * @category   ECS_WP_ThemeCore
- * @package    ECS_WP_ThemeCore
+ * @category   ECS_WordPress
+ * @package    ECS_WordPress
  * @subpackage Templates
  * @author     Roy Lindauer <hello@roylindauer.com>
  * @copyright  2013 Roy Lindauer
