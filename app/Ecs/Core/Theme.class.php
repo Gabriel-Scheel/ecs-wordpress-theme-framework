@@ -540,9 +540,14 @@ class Theme
     public function executeAjax()
     {
         try {
+
+            if (!wp_verify_nonce($_POST['executeAjaxNonce'], 'execute_ajax_nonce')) {
+                throw new \Exception('Invalid ajax request');
+            }
+
             // Make sure we have a class and a method to execute
             if (!isset($_GET['c']) && !isset($_GET['m'])) {
-                throw new \Exception('Invalid Ajax request');
+                throw new \Exception('Invalid params in ajax request');
             }
 
             $c = filter_var($_GET['c'], FILTER_SANITIZE_STRING);
