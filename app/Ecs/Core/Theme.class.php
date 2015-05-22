@@ -540,25 +540,28 @@ class Theme
     public function executeAjax()
     {
         try {
-
             if (!isset($_REQUEST['_wpnonce']) || !wp_verify_nonce($_REQUEST['_wpnonce'], 'execute_ajax_nonce')) {
                 throw new \Exception('Invalid ajax request');
             }
 
             // Make sure we have a class and a method to execute
-            if (!isset($_GET['c']) && !isset($_GET['m'])) {
+            if (!isset($_REQUEST['c']) && !isset($_REQUEST['m'])) {
                 throw new \Exception('Invalid params in ajax request');
             }
 
-            $c = filter_var($_GET['c'], FILTER_SANITIZE_STRING);
+            $c = filter_var($_REQUEST['c'], FILTER_SANITIZE_STRING);
             $class = "\Ecs\\Modules\\$c";
+
+            if (!class_exists($class)) {
+                throw new \Exception('Class does not exist');
+            }
 
             $Obj = new $class();
 
             $Inflector = new \Ecs\Core\Inflector();
 
             // Convert our method "ajax_method" to proper camelized "ajaxMethod"
-            $m = $Inflector->camelize('ajax_' . filter_var($_GET['m'], FILTER_SANITIZE_STRING));
+            $m = $Inflector->camelize('ajax_' . filter_var($_REQUEST['m'], FILTER_SANITIZE_STRING));
 
             if (!method_exists($Obj, $m)) {
                 throw new \Exception('Ajax method does not exist');
