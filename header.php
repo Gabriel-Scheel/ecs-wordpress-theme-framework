@@ -36,5 +36,6 @@
 <body <?php body_class(); ?>>
 
 <?php
+
 /* End of file header.php */
 /* Location: ./header.php */

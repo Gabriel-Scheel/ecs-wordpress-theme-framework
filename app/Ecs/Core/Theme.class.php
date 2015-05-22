@@ -541,7 +541,7 @@ class Theme
     {
         try {
 
-            if (!wp_verify_nonce($_POST['executeAjaxNonce'], 'execute_ajax_nonce')) {
+            if (!isset($_REQUEST['_wpnonce']) || !wp_verify_nonce($_REQUEST['_wpnonce'], 'execute_ajax_nonce')) {
                 throw new \Exception('Invalid ajax request');
             }
 
