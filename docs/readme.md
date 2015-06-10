@@ -105,6 +105,7 @@ $theme->run(array(
     // Define theme features
     // http://codex.wordpress.org/Function_Reference/add_theme_support
     'theme_features' => array(
+        'automatic-feed-links',
         'post-thumbnails',
         'post-formats' => array(
             'aside',
