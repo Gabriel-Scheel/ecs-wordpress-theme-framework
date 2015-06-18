@@ -16,7 +16,7 @@ $config = array(
             ),
             // Default args
             'args' => array(
-                'description' => __('Describe the post type'),
+                'description' => \Ecs\Helpers\__('Describe the post type'),
             )
         )
     ),
@@ -32,7 +32,7 @@ $config = array(
                 'post_types'   => array('cover', 'post', 'page'), // this can include built in post types (page, post, etc)
             ),
             'args' => array(
-                'label'        => __('Cover Categories'),
+                'label'        => \Ecs\Helpers\__('Cover Categories'),
                 'rewrite'      => 'cover_categories',
                 'hierarchical' => true,
             )
@@ -42,7 +42,7 @@ $config = array(
                 'post_types'   => array('cover'),
             ),
             'args' => array(
-                'label'        => __('Cover Tags'),
+                'label'        => \Ecs\Helpers\__('Cover Tags'),
                 'rewrite'      => 'cover_tags',
                 'hierarchical' => false,
                 'show_admin_column' => false
@@ -88,9 +88,9 @@ $config = array(
     // https://codex.wordpress.org/Function_Reference/register_nav_menu
     /*
     'menus' => array(
-        'main-menu'   => __('Main Menu'),
-        'sub-menu'    => __('Sub Menu'),
-        'footer-menu' => __('Footer Menu')
+        'main-menu'   => \Ecs\Helpers\__('Main Menu'),
+        'sub-menu'    => \Ecs\Helpers\__('Sub Menu'),
+        'footer-menu' => \Ecs\Helpers\__('Footer Menu')
     ),
     */
 
@@ -100,7 +100,7 @@ $config = array(
     'sidebars' => array(
         array(
             'id'            => 'my-custom-sidebar',
-            'name'          => __('My Custom Sidebar'),
+            'name'          => \Ecs\Helpers\__('My Custom Sidebar'),
             'description'   => '',
             'class'         => '',
             'before_widget' => '<li id="%1$s" class="widget %2$s">',

@@ -6,7 +6,7 @@
 require 'app/Ecs/common.php';
 
 // Init a theme object by passing in a unique name for the theme. This name will be used as the lang key
-$theme = new Ecs\Modules\Theme('my-theme-name');
+$theme = new Ecs\Modules\Theme();
 
 // Execute the theme
 $theme->run();

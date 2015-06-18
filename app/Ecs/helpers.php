@@ -22,7 +22,6 @@ namespace Ecs\Helpers;
 if (!function_exists('of_get_option')) {
     function of_get_option($name, $default = false)
     {
-        
         $optionsframework_settings = get_option('optionsframework');
         
         // Gets the unique option id
@@ -135,8 +134,7 @@ function date($format = 'Y-m-d H:i:s', $timestamp = false)
  */
 function __($str = '')
 {
-    $Theme = \Ecs\Helpers\get_instance('Theme');
-    return $Theme->lang($str);
+    return \__($str, \Ecs\Core\Configure::read('name'));
 }
 
 /**

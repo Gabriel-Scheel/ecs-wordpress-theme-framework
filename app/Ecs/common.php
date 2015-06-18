@@ -27,7 +27,13 @@ spl_autoload_register(function ($className) {
     }
 });
 
+
 // Load configs
+$curtheme = wp_get_theme();
+\Ecs\Core\Configure::write('name', $curtheme->get('Name'));
+\Ecs\Core\Configure::write('version', $curtheme->get('Version'));
+unset($curtheme);
+
 require_once APP_PATH . DS . 'Ecs' . DS . 'Config' . DS . 'core.php';
 if (file_exists(APP_PATH . DS . 'Ecs' . DS . 'Config' . DS . 'core-local.php')) {
     require_once APP_PATH . DS . 'Ecs' . DS . 'Config' . DS . 'core-local.php';

@@ -13,29 +13,12 @@ namespace Ecs\Core;
  */
 class Theme
 {
-
-    /**
-     * WP Theme Information.
-     *
-     * @var WP_Theme
-     */
-    private $theme_information;
-    
     /**
      * Collection of post type objects.
      *
      * @var array $post_types collection of post type objects
      */
     public $post_types = array();
-
-    /**
-     *
-     */
-    public function __construct($name = 'my-theme-name')
-    {
-        Configure::write('name', $name);
-        $this->theme_information = wp_get_theme();
-    }
 
     /**
      * Setup.
@@ -45,8 +28,6 @@ class Theme
      */
     public function run()
     {
-        \Ecs\Core\Configure::write('version', $this->theme_information->Version);
-        
         // Load custom post types, widgets, etc.
         add_action('init', array(&$this, 'loadPostTypes'));
         add_action('init', array(&$this, 'registerTaxonomies'));
@@ -78,20 +59,6 @@ class Theme
         add_action('wp_ajax_ecs_ajax', array(&$this, 'executeAjax'));
         add_action('wp_ajax_nopriv_ecs_ajax', array(&$this, 'executeAjax'));
 
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////
-    //
-    // Misc, Helpers
-    //
-    ////////////////////////////////////////////////////////////////////////////////
-
-    /**
-     * @param string  language string to return
-     */
-    public function lang($str = '')
-    {
-        return __($str, \Ecs\Core\Configure::read('name'));
     }
 
     ////////////////////////////////////////////////////////////////////////////////
@@ -230,7 +197,7 @@ class Theme
             foreach (\Ecs\Core\Configure::read('dependencies.classes') as $name => $class) {
                 if (!class_exists($class)) {
                     echo '<div class="error"><p>'
-                    . sprintf($this->lang('Please make sure that %s is installed'), $class)
+                    . sprintf(\Ecs\Helpers\__('Please make sure that %s is installed'), $class)
                     . '</p></div>';
                 }
             }
@@ -341,7 +308,7 @@ class Theme
             $output .= '<li>' . $error . '</li>';
         }
 
-        echo '<div class="error"><h4>'.$this->lang('Theme Errors & Warnings').'</h4><ul>';
+        echo '<div class="error"><h4>' . \Ecs\Helpers\__('Theme Errors & Warnings').'</h4><ul>';
         echo $output;
         echo '</ul></div>';
     }
