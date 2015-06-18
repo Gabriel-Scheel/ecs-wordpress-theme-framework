@@ -88,11 +88,6 @@ class Theme
         add_action('after_setup_theme', array(&$this, 'registerNavMenus'));
         add_action('after_setup_theme', array(&$this, 'registerSidebars'));
 
-        // Setup custom metaboxes
-        if (class_exists('RW_Meta_Box')) {
-            add_filter('rwmb_meta_boxes', array(&$this, 'registerMetaboxes'));
-        }
-
         // Setup ajax endpoint
         add_action('wp_ajax_ecs_ajax', array(&$this, 'executeAjax'));
         add_action('wp_ajax_nopriv_ecs_ajax', array(&$this, 'executeAjax'));
@@ -499,14 +494,6 @@ class Theme
         }
 
         register_nav_menus($menus);
-    }
-
-    /**
-     * Register Metaboxes
-     */
-    public function registerMetaboxes()
-    {
-        require_once APP_PATH . '/Ecs/metaboxes.php';
     }
 
     /**
