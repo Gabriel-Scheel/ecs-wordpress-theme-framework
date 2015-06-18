@@ -150,7 +150,7 @@ $theme->run(array(
     // Require Core PHP Classes / Libraries
     'dependencies' => array(
         'plugins' => array(
-            // MetaBox is amazing, and we use it in the PostType model
+            // Rilwils MetaBox is amazing!
             array(
                 'name'      => 'Meta Box',
                 'slug'      => 'meta-box',
