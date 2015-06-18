@@ -1,6 +1,6 @@
 # How to include Rilwils MetaBox _"The Right Way"_
 
-Add the plugin as a dependency in your theme constructor:
+Add the plugin as a dependency in your themes config:
 
 ```
     'dependencies' => array(
@@ -17,7 +17,7 @@ Add the plugin as a dependency in your theme constructor:
 
 Go to wp-admin and install & activate the plugin.  
 
-In \Ecs\Modules\Theme.php in the __constructor add the action to register metaboxes
+In \Ecs\Modules\Theme.php in the run method add the action to register metaboxes
 
 ```
 add_filter('rwmb_meta_boxes', array(&$this, 'registerMetaBoxes'));
