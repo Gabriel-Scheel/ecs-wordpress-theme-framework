@@ -17,12 +17,6 @@ define('APP_PATH', dirname(dirname(realpath(__FILE__))));
 define('VENDOR_PATH', APP_PATH . DS . 'vendor');
 define('ECS_TIMEZONE', 'America/Los_Angeles');
 
-// Load helper functions
-require_once 'helpers.php';
-
-// Load required vendors
-require_once VENDOR_PATH . DS . 'plugin-activation' . DS . 'class-tgm-plugin-activation.php';
-
 // Setup Autoloader
 spl_autoload_register(function ($className) {
     $namespace = str_replace("\\", "/", __NAMESPACE__);
@@ -32,6 +26,18 @@ spl_autoload_register(function ($className) {
         include_once($class);
     }
 });
+
+// Load configs
+require_once APP_PATH . DS . 'Ecs' . DS . 'Config' . DS . 'core.php';
+if (file_exists(APP_PATH . DS . 'Ecs' . DS . 'Config' . DS . 'core-local.php')) {
+    require_once APP_PATH . DS . 'Ecs' . DS . 'Config' . DS . 'core-local.php';
+}
+
+// Load helper functions
+require_once 'helpers.php';
+
+// Load required vendors
+require_once VENDOR_PATH . DS . 'plugin-activation' . DS . 'class-tgm-plugin-activation.php';
 
 /* End of file common.php */
 /* Location: ./app/Ecs/common.php */

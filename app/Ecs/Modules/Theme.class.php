@@ -16,9 +16,10 @@ class Theme extends \Ecs\Core\Theme
     /**
      * Extend base run method. Bootstraps theme.
      */
-    public function run($config = array())
+    public function run()
     {
-        parent::run($config);
+        // You have to call the parent method
+        parent::run();
 
         ///// Add Hooks Below /////
     }

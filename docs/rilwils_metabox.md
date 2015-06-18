@@ -35,7 +35,7 @@ public function registerMetaBoxes($meta_boxes)
 }
 ```
 
-If you have a lot of MetaBoxes, and you probably will, a better solution might be to create a metabox config file under app/Ecs/metaboxes.php
+If you have a lot of MetaBoxes, and you probably will, a better solution might be to create a metabox config file under app/Ecs/Config/metaboxes.php
 
 ```
 <?php
@@ -52,7 +52,7 @@ Modify registerMetaBoxes:
 ```
 public function registerMetaBoxes($meta_boxes)
 {
-    require_once APP_PATH . '/Ecs/' . metaboxes.php;
+    require_once APP_PATH . '/Ecs/Config/' . metaboxes.php;
     return \Ecs\Core\Configure::read('meta_boxes');
 }
 ```

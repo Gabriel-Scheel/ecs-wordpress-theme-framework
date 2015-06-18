@@ -15,18 +15,6 @@ class Theme
 {
 
     /**
-     * Array of config options for the theme.
-     *
-     * Config can be multidim, which can be accessed using dotnotation
-     * consider the following config array: array('multi'=>array('dim'=>array('option'=>'val')))
-     * can access option by using:
-     * eg: $this->config('multi.dim.option').
-     *
-     * @var array
-     */
-    private $config = array();
-
-    /**
      * WP Theme Information.
      *
      * @var WP_Theme
@@ -45,7 +33,7 @@ class Theme
      */
     public function __construct($name = 'my-theme-name')
     {
-        $this->writeConfig('name', $name);
+        Configure::write('name', $name);
         $this->theme_information = wp_get_theme();
     }
 
@@ -55,11 +43,9 @@ class Theme
      * @param array $config
      * @todo Develop automatic menu loading and registering of image sizes.
      */
-    public function run($config = array())
+    public function run()
     {
-        
-        $this->config = array_merge($this->config, $config);
-        $this->writeConfig('version', $this->theme_information->Version);
+        \Ecs\Core\Configure::write('version', $this->theme_information->Version);
         
         // Load custom post types, widgets, etc.
         add_action('init', array(&$this, 'loadPostTypes'));
@@ -105,83 +91,7 @@ class Theme
      */
     public function lang($str = '')
     {
-        return __($str, $this->config('name'));
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////
-    //
-    // Theme Config
-    //
-    ////////////////////////////////////////////////////////////////////////////////
-    
-    /**
-     * Get a config value
-     *
-     * @param type $index
-     * @return type
-     */
-    public function config($index)
-    {
-        $index = explode('.', $index);
-        return self::getConfig($index, $this->config);
-    }
-
-    /**
-     *
-     */
-    public function writeConfig($index, $val = '')
-    {
-        self::setConfig($index, $val);
-    }
-    
-    /**
-     * Handle the dot notation to set a config value to the config array
-     *
-     * @param type $index
-     * @param type $value
-     * @return type
-     */
-    private function setConfig($index, $val)
-    {
-        $link =& $this->config;
-
-        if (!empty($index)) {
-            $keys = explode('.', $index);
-
-            if (count($keys) == 1) {
-                $this->config[$index] = $val;
-            } else {
-                foreach ($keys as $key) {
-                    if (!isset($this->config[$key])) {
-                        $link[$key] = array();
-                    }
-
-                    $link =& $link[$key];
-                }
-
-                $link = $val;
-            }
-        }
-    }
-    
-    /**
-     * Handle the dot notation to get a config value from the config array
-     *
-     * @param type $index
-     * @param type $value
-     * @return type
-     */
-    private function getConfig($index, $config)
-    {
-        if (is_array($index) && count($index)) {
-            $current_index = array_shift($index);
-        }
-        
-        if (is_array($index) && count($index) && is_array($config[$current_index]) && count($config[$current_index])) {
-            return self::getConfig($index, $this->config[$current_index]);
-        } else {
-            return (!empty($config[$current_index])) ? $config[$current_index] : false ;
-        }
+        return __($str, \Ecs\Core\Configure::read('name'));
     }
 
     ////////////////////////////////////////////////////////////////////////////////
@@ -195,7 +105,7 @@ class Theme
      */
     public function registerStylesheets()
     {
-        $stylesheets = $this->config('assets.stylesheets');
+        $stylesheets = \Ecs\Core\Configure::read('assets.stylesheets');
 
         foreach ($stylesheets as $handle => $data) {
             $data = $data;
@@ -208,7 +118,7 @@ class Theme
      */
     public function enqueueStylesheets()
     {
-        $stylesheets = $this->config('assets.stylesheets');
+        $stylesheets = \Ecs\Core\Configure::read('assets.stylesheets');
 
         foreach ($stylesheets as $handle => $data) {
             wp_enqueue_style($handle, $data['source'], $data['dependencies'], $data['version']);
@@ -220,7 +130,7 @@ class Theme
      */
     public function registerScripts()
     {
-        $scripts = $this->config('assets.scripts');
+        $scripts = \Ecs\Core\Configure::read('assets.scripts');
 
         foreach ($scripts as $handle => $data) {
             wp_register_script($handle, $data['source'], $data['dependencies'], $data['version'], $data['in_footer']);
@@ -232,7 +142,7 @@ class Theme
      */
     public function enqueueScripts()
     {
-        $scripts = $this->config('assets.scripts');
+        $scripts = \Ecs\Core\Configure::read('assets.scripts');
 
         foreach ($scripts as $handle => $data) {
             wp_enqueue_script($handle, $data['source'], $data['dependencies'], $data['version'], $data['in_footer']);
@@ -250,7 +160,7 @@ class Theme
      */
     public function registerRequiredPlugins()
     {
-        if (($plugins = $this->config('dependencies.plugins')) == false) {
+        if (($plugins = \Ecs\Core\Configure::read('dependencies.plugins')) == false) {
             return;
         }
 
@@ -300,8 +210,8 @@ class Theme
     public function dependencies()
     {
         // check php
-        if ($this->config('dependencies.classes') !== false) {
-            foreach ($this->config('dependencies.classes') as $name => $class) {
+        if (\Ecs\Core\Configure::read('dependencies.classes') !== false) {
+            foreach (\Ecs\Core\Configure::read('dependencies.classes') as $name => $class) {
                 if (!class_exists($class)) {
                     echo '<div class="error"><p>'
                     . sprintf($this->lang('Please make sure that %s is installed'), $class)
@@ -322,7 +232,7 @@ class Theme
      */
     public function loadPostTypes()
     {
-        $post_types = $this->config('post_types');
+        $post_types = \Ecs\Core\Configure::read('post_types');
 
         if ($post_types === false) {
             return;
@@ -338,7 +248,7 @@ class Theme
      */
     public function registerTaxonomies()
     {
-        $taxonomies = $this->config('taxonomies');
+        $taxonomies = \Ecs\Core\Configure::read('taxonomies');
 
         if (empty($taxonomies)) {
             return;
@@ -431,7 +341,7 @@ class Theme
      */
     public function registerThemeFeatures()
     {
-        $features = $this->config('theme_features');
+        $features = \Ecs\Core\Configure::read('theme_features');
 
         if (empty($features)) {
             return;
@@ -452,7 +362,7 @@ class Theme
      */
     public function registerImageSizes()
     {
-        $image_sizes = $this->config('image_sizes');
+        $image_sizes = \Ecs\Core\Configure::read('image_sizes');
 
         if (empty($image_sizes)) {
             return;
@@ -473,7 +383,7 @@ class Theme
      */
     public function registerNavMenus()
     {
-        $menus = $this->config('menus');
+        $menus = \Ecs\Core\Configure::read('menus');
 
         if (empty($menus)) {
             return;
@@ -487,7 +397,7 @@ class Theme
      */
     public function registerSidebars()
     {
-        $menus = $this->config('menus');
+        $menus = \Ecs\Core\Configure::read('menus');
 
         if (empty($menus)) {
             return;
@@ -501,7 +411,7 @@ class Theme
      */
     public function loadShortcodes()
     {
-        $shortcodes = $this->config('shortcodes');
+        $shortcodes = \Ecs\Core\Configure::read('shortcodes');
 
         if (empty($shortcodes)) {
             return;
