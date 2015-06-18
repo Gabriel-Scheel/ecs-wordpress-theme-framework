@@ -107,6 +107,10 @@ class Theme
     {
         $stylesheets = \Ecs\Core\Configure::read('assets.stylesheets');
 
+        if (empty($stylesheets)) {
+            return;
+        }
+
         foreach ($stylesheets as $handle => $data) {
             $data = $data;
             wp_register_style($handle, $data['source'], $data['dependencies'], $data['version']);
@@ -120,6 +124,10 @@ class Theme
     {
         $stylesheets = \Ecs\Core\Configure::read('assets.stylesheets');
 
+        if (empty($stylesheets)) {
+            return;
+        }
+
         foreach ($stylesheets as $handle => $data) {
             wp_enqueue_style($handle, $data['source'], $data['dependencies'], $data['version']);
         }
@@ -132,6 +140,10 @@ class Theme
     {
         $scripts = \Ecs\Core\Configure::read('assets.scripts');
 
+        if (empty($scripts)) {
+            return;
+        }
+
         foreach ($scripts as $handle => $data) {
             wp_register_script($handle, $data['source'], $data['dependencies'], $data['version'], $data['in_footer']);
         }
@@ -143,6 +155,10 @@ class Theme
     public function enqueueScripts()
     {
         $scripts = \Ecs\Core\Configure::read('assets.scripts');
+
+        if (empty($scripts)) {
+            return;
+        }
 
         foreach ($scripts as $handle => $data) {
             wp_enqueue_script($handle, $data['source'], $data['dependencies'], $data['version'], $data['in_footer']);

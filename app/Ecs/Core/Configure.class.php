@@ -94,7 +94,11 @@ final class Configure
             $current_index = array_shift($index);
         }
         
-        if (is_array($index) && count($index) && is_array($config[$current_index]) && count($config[$current_index])) {
+        if (is_array($index) &&
+            count($index) &&
+            isset($config[$current_index]) &&
+            is_array($config[$current_index]) &&
+            count($config[$current_index])) {
             return self::getConfig($index, self::$config[$current_index]);
         } else {
             return (!empty($config[$current_index])) ? $config[$current_index] : false ;

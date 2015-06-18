@@ -16,7 +16,7 @@ $config = array(
             ),
             // Default args
             'args' => array(
-                'description' => $theme->lang('Describe the post type'),
+                'description' => __('Describe the post type'),
             )
         )
     ),
@@ -29,10 +29,10 @@ $config = array(
     'taxonomies' => array(
         'cover_categories' => array(
             'params' => array(
-                'post_types'   => array('cover'), // this can include built in post types (page, post, etc)
+                'post_types'   => array('cover', 'post', 'page'), // this can include built in post types (page, post, etc)
             ),
             'args' => array(
-                'label'        => $theme->lang('Cover Categories'),
+                'label'        => __('Cover Categories'),
                 'rewrite'      => 'cover_categories',
                 'hierarchical' => true,
             )
@@ -42,7 +42,7 @@ $config = array(
                 'post_types'   => array('cover'),
             ),
             'args' => array(
-                'label'        => $theme->lang('Cover Tags'),
+                'label'        => __('Cover Tags'),
                 'rewrite'      => 'cover_tags',
                 'hierarchical' => false,
                 'show_admin_column' => false
@@ -88,9 +88,9 @@ $config = array(
     // https://codex.wordpress.org/Function_Reference/register_nav_menu
     /*
     'menus' => array(
-        'main-menu'   => $theme->lang('Main Menu'),
-        'sub-menu'    => $theme->lang('Sub Menu'),
-        'footer-menu' => $theme->lang('Footer Menu')
+        'main-menu'   => __('Main Menu'),
+        'sub-menu'    => __('Sub Menu'),
+        'footer-menu' => __('Footer Menu')
     ),
     */
 
@@ -100,7 +100,7 @@ $config = array(
     'sidebars' => array(
         array(
             'id'            => 'my-custom-sidebar',
-            'name'          => $theme->lang('My Custom Sidebar'),
+            'name'          => __('My Custom Sidebar'),
             'description'   => '',
             'class'         => '',
             'before_widget' => '<li id="%1$s" class="widget %2$s">',
