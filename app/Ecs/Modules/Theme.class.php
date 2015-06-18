@@ -18,7 +18,7 @@ class Theme
      */
     public function run()
     {
-        
+        // DEFINE HOOKS BELOW
     }
 }
 
