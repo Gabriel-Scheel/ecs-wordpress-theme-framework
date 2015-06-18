@@ -8,7 +8,7 @@ require 'app/Ecs/common.php';
 // Init a theme object by passing in a unique name for the theme. This name will be used as the lang key
 $theme = new Ecs\Modules\Theme('my-theme-name');
 
-// Execute thg theme
+// Execute the theme
 $theme->run();
 
 // Store theme in registry to make it easier to retreive in templates, if needed. 
