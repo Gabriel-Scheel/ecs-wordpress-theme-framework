@@ -11,17 +11,14 @@ namespace Ecs\Modules;
  * @license    http://www.apache.org/licenses/LICENSE-2.0.html  Apache License, Version 2.0
  * @link       http://roylindauer.com
  */
-class Theme extends \Ecs\Core\Theme
+class Theme
 {
     /**
      * Extend base run method. Bootstraps theme.
      */
     public function run()
     {
-        // You have to call the parent method
-        parent::run();
-
-        ///// Add Hooks Below /////
+        
     }
 }
 

@@ -27,7 +27,6 @@ spl_autoload_register(function ($className) {
     }
 });
 
-
 // Load configs
 $curtheme = wp_get_theme();
 \Ecs\Core\Configure::write('name', $curtheme->get('Name'));
@@ -44,6 +43,10 @@ require_once 'helpers.php';
 
 // Load required vendors
 require_once VENDOR_PATH . DS . 'plugin-activation' . DS . 'class-tgm-plugin-activation.php';
+
+// Bootstrap the Theme!
+$theme = new \Ecs\Core\Theme();
+$theme->run();
 
 /* End of file common.php */
 /* Location: ./app/Ecs/common.php */

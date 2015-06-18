@@ -6,14 +6,12 @@ All customizations and new functionaly should be under Ecs/Modules.
 
 # Init Theme
 
-Add custom hooks and WordPress behavior to Ecs/Modules/Theme.class.php. 
-
-Ecs/Modules/Theme.class.php extends Ecs/Core/Theme.class.php. 
+Ecs/Modules/Theme.class.php. 
 
 Any hooks and functions defined in Ecs/Modules/Theme::run() will be executed in theme initialization. 
 
 ```
-class Theme extends \Ecs\Core\Theme
+class Theme
 {
     public function run()
     {
@@ -31,10 +29,10 @@ class Theme extends \Ecs\Core\Theme
 }
 ```
 
-The theme initialization occurs in functions.php. You must pass a theme id to the constructor. The theme id is used for string translations. 
+The theme initialization occurs in functions.php
 
 ```
-$theme = new Ecs\Modules\Theme('my-theme-name');
+$theme = new Ecs\Modules\Theme();
 ```
 
 To initialize the theme you must now call the run method
