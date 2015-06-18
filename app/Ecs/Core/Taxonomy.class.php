@@ -91,7 +91,12 @@ class Taxonomy
 
         $this->args = array_merge($this->args, $args);
 
-        register_taxonomy(strtolower($this->name), $params['post_types'], $this->args);
+        $taxname = strtolower($this->name);
+
+        // Do not re-register built in tax types..
+        if (!in_array($taxname, array('category', 'tag'))) {
+            register_taxonomy($taxname, $params['post_types'], $this->args);
+        }
 
         /*
         https://codex.wordpress.org/Function_Reference/register_taxonomy
@@ -102,9 +107,7 @@ class Taxonomy
         */
         //
         foreach ($params['post_types'] as $post_type) {
-            if (!in_array($post_type, array('post', 'page', 'attachment', 'revision', 'nav_menu_item'))) {
-                register_taxonomy_for_object_type(strtolower($this->name), $post_type);
-            }
+            register_taxonomy_for_object_type($taxname, $post_type);
         }
     }
 }
