@@ -33,13 +33,16 @@ $curtheme = wp_get_theme();
 \Ecs\Core\Configure::write('version', $curtheme->get('Version'));
 unset($curtheme);
 
+
+
+// Load helper functions
+require_once 'helpers.php';
+
+
 require_once APP_PATH . DS . 'Ecs' . DS . 'Config' . DS . 'core.php';
 if (file_exists(APP_PATH . DS . 'Ecs' . DS . 'Config' . DS . 'core-local.php')) {
     require_once APP_PATH . DS . 'Ecs' . DS . 'Config' . DS . 'core-local.php';
 }
-
-// Load helper functions
-require_once 'helpers.php';
 
 // Load required vendors
 require_once VENDOR_PATH . DS . 'plugin-activation' . DS . 'class-tgm-plugin-activation.php';
